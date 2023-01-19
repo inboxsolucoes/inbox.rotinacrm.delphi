@@ -596,8 +596,8 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
         'AULT NULL, PCODPROD IN NUMBER DEFAULT NULL);'
       ''
       'END;')
-    Left = 600
-    Top = 176
+    Left = 608
+    Top = 192
   end
   object PKG_I9UTILITARIO_CORPO_CREATE: TUniQuery
     Connection = DmLogin.Conexao
@@ -5069,7 +5069,7 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
     Connection = DmLogin.Conexao
     SQL.Strings = (
       'CREATE OR REPLACE '
-      'PACKAGE pkg_i9clubecrm'
+      'PACKAGE PKG_I9CLUBECRM'
       'AS'
       
         '    PROCEDURE ATUALIZARCLIENTESGRUPOCRM (PCODGRUPOCRM IN NUMBER)' +
@@ -5081,8 +5081,8 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
       ''
       
         '    PROCEDURE RECALCULARPRECOCRM (PCODFILIAL IN VARCHAR2, PCODPR' +
-        'OD IN NUMBER, PNOVOPRECO IN NUMBER, PNOVOPRECOATACADO IN NUMBER,' +
-        ' PQTUNIT IN NUMBER DEFAULT 1);'
+        'OD IN NUMBER, PNOVOPRECO IN NUMBER, PNOVOPRECOATACADO IN NUMBER)' +
+        ';'
       ''
       '    PROCEDURE INSERIRCLIENTECRM (PCGCENT IN VARCHAR2);'
       ''
@@ -5097,8 +5097,8 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
   object PKG_I9CLUBECRM_BODY: TUniQuery
     Connection = DmLogin.Conexao
     SQL.Strings = (
-      'CREATE OR REPLACE '
-      'PACKAGE BODY pkg_i9clubecrm'
+      'CREATE OR REPLACE'
+      'PACKAGE BODY PKG_I9CLUBECRM'
       'AS'
       '    PROCEDURE ATUALIZARCLIENTESGRUPOCRM (PCODGRUPOCRM IN NUMBER)'
       '    IS'
@@ -5112,7 +5112,8 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
         '            WHERE REGEXP_REPLACE (I9GRUPOCRMI.CGCENT, '#39'[^[:digit' +
         ':]]'#39') = REGEXP_REPLACE (PCCLIENT.CGCENT, '#39'[^[:digit:]]'#39')'
       '                  AND I9GRUPOCRMI.CODGRUPOCRM = PCODGRUPOCRM)'
-      '        LOOP PKG_I9CLUBECRM.INSERIRCLIENTECRM (REG.CPFCLIENTE);'
+      '        LOOP'
+      '            PKG_I9CLUBECRM.INSERIRCLIENTECRM (REG.CPFCLIENTE);'
       '        END LOOP;'
       '    END;'
       ''
@@ -5170,8 +5171,7 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
       ''
       
         '    PROCEDURE RECALCULARPRECOCRM (PCODFILIAL IN VARCHAR2, PCODPR' +
-        'OD IN NUMBER, PNOVOPRECO IN NUMBER, PNOVOPRECOATACADO IN NUMBER,' +
-        ' PQTUNIT IN NUMBER DEFAULT 1)'
+        'OD IN NUMBER, PNOVOPRECO IN NUMBER, PNOVOPRECOATACADO IN NUMBER)'
       '    IS'
       '        VCODCLICRMGERAL NUMBER (10);'
       '        VCODCLICRMATACADO NUMBER (10);'
@@ -5201,9 +5201,152 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
       '          FROM   DUAL;'
       ''
       ''
+      '        IF VFILPRECOPOREMBALAGEM = '#39'S'#39' THEN'
+      ''
+      '            /*REACALCULAR PRE'#199'O VAREJO*/'
+      '            FOR REG'
+      '            IN (SELECT PCDESCONTOFIDELIDADE.CODFIDELIDADE,'
+      '                       PCEMBALAGEM.CODPROD,'
+      '                       PCEMBALAGEM.CODFILIAL,'
+      '                       PCEMBALAGEM.PVENDA,'
+      '                       PCDESCONTOFIDELIDADE.CODCLICONVENIO,'
       
-        '        IF NVL(PNOVOPRECO, 0) > 0 OR NVL(PNOVOPRECOATACADO, 0) >' +
-        ' 0 THEN'
+        '                       CASE WHEN PCEMBALAGEM.PVENDA < PCDESCONTO' +
+        'FIDELIDADE.PVENDACRM THEN 0 ELSE PCDESCONTOFIDELIDADE.PVENDACRM ' +
+        'END PRECOCRM,'
+      '                       CASE'
+      
+        '                           WHEN PCEMBALAGEM.PVENDA < PCDESCONTOF' +
+        'IDELIDADE.PVENDACRM THEN 0'
+      
+        '                           ELSE PKG_I9UTILITARIO.DIFERENCA_ENTRE' +
+        '_MARGENS (PCEMBALAGEM.PVENDA, PCDESCONTOFIDELIDADE.PVENDACRM)'
+      '                       END'
+      '                           PERCDESC'
+      '                FROM PCEMBALAGEM, PCDESCONTOFIDELIDADE'
+      
+        '                WHERE     PCEMBALAGEM.CODFILIAL = PCDESCONTOFIDE' +
+        'LIDADE.CODFILIAL'
+      
+        '                      AND PCEMBALAGEM.CODPROD = PCDESCONTOFIDELI' +
+        'DADE.CODPROD'
+      
+        '                      AND PCEMBALAGEM.QTUNIT IN (SELECT MIN (QTU' +
+        'NIT)'
+      
+        '                                                 FROM PCEMBALAGE' +
+        'M PE'
+      
+        '                                                 WHERE PE.CODPRO' +
+        'D = PCEMBALAGEM.CODPROD AND PE.DTINATIVO IS NULL)'
+      '                      AND PCEMBALAGEM.CODFILIAL = PCODFILIAL'
+      '                      AND PCEMBALAGEM.CODPROD = PCODPROD'
+      
+        '                      AND NVL (PCDESCONTOFIDELIDADE.PVENDACRM, 0' +
+        ') > 0'
+      
+        '                      AND TRUNC (SYSDATE) BETWEEN PCDESCONTOFIDE' +
+        'LIDADE.DTINICIAL AND DTFINAL'
+      '                      AND PCEMBALAGEM.DTINATIVO IS NULL'
+      
+        '                      AND PCDESCONTOFIDELIDADE.DTEXCLUSAO IS NUL' +
+        'L'
+      
+        '                      AND PCDESCONTOFIDELIDADE.CODCLICONVENIO = ' +
+        'VCODCLICRMGERAL)'
+      '            LOOP'
+      '                UPDATE PCDESCONTOFIDELIDADE'
+      
+        '                SET PCDESCONTOFIDELIDADE.PERCDESCONTO = REG.PERC' +
+        'DESC, PCDESCONTOFIDELIDADE.PVENDACRM = REG.PRECOCRM'
+      
+        '                WHERE     PCDESCONTOFIDELIDADE.CODFIDELIDADE = R' +
+        'EG.CODFIDELIDADE'
+      
+        '                      AND PCDESCONTOFIDELIDADE.CODPROD = REG.COD' +
+        'PROD'
+      
+        '                      AND PCDESCONTOFIDELIDADE.CODFILIAL = REG.C' +
+        'ODFILIAL'
+      
+        '                      AND PCDESCONTOFIDELIDADE.CODCLICONVENIO = ' +
+        'REG.CODCLICONVENIO;'
+      '            END LOOP;'
+      ''
+      ''
+      '            /*RECALCULAR PRE'#199'O ATACADO*/'
+      '            FOR REG'
+      '            IN (SELECT PCDESCONTOFIDELIDADE.CODFIDELIDADE,'
+      '                       PCEMBALAGEM.CODPROD,'
+      '                       PCEMBALAGEM.CODFILIAL,'
+      '                       PCEMBALAGEM.PVENDAATAC,'
+      '                       PCDESCONTOFIDELIDADE.CODCLICONVENIO,'
+      
+        '                       CASE WHEN PCEMBALAGEM.PVENDAATAC < PCDESC' +
+        'ONTOFIDELIDADE.PVENDACRM THEN 0 ELSE PCDESCONTOFIDELIDADE.PVENDA' +
+        'CRM END PRECOCRM,'
+      '                       CASE'
+      
+        '                           WHEN PCEMBALAGEM.PVENDAATAC < PCDESCO' +
+        'NTOFIDELIDADE.PVENDACRM THEN 0'
+      
+        '                           ELSE PKG_I9UTILITARIO.DIFERENCA_ENTRE' +
+        '_MARGENS (PCEMBALAGEM.PVENDAATAC, PCDESCONTOFIDELIDADE.PVENDACRM' +
+        ')'
+      '                       END'
+      '                           PERCDESC'
+      '                FROM PCEMBALAGEM, PCDESCONTOFIDELIDADE'
+      
+        '                WHERE     PCEMBALAGEM.CODFILIAL = PCDESCONTOFIDE' +
+        'LIDADE.CODFILIAL'
+      
+        '                      AND PCEMBALAGEM.CODPROD = PCDESCONTOFIDELI' +
+        'DADE.CODPROD'
+      
+        '                      AND PCEMBALAGEM.QTUNIT IN (SELECT MIN (QTU' +
+        'NIT)'
+      
+        '                                                 FROM PCEMBALAGE' +
+        'M PE'
+      
+        '                                                 WHERE PE.CODPRO' +
+        'D = PCEMBALAGEM.CODPROD AND PE.DTINATIVO IS NULL)'
+      '                      AND PCEMBALAGEM.CODFILIAL = PCODFILIAL'
+      '                      AND PCEMBALAGEM.CODPROD = PCODPROD'
+      
+        '                      AND NVL (PCDESCONTOFIDELIDADE.PVENDACRM, 0' +
+        ') > 0'
+      '                      AND PCEMBALAGEM.DTINATIVO IS NULL'
+      
+        '                      AND PCDESCONTOFIDELIDADE.DTEXCLUSAO IS NUL' +
+        'L'
+      
+        '                      AND TRUNC (SYSDATE) BETWEEN PCDESCONTOFIDE' +
+        'LIDADE.DTINICIAL AND DTFINAL'
+      
+        '                      AND PCDESCONTOFIDELIDADE.CODCLICONVENIO = ' +
+        'VCODCLICRMATACADO)'
+      '            LOOP'
+      '                UPDATE PCDESCONTOFIDELIDADE'
+      
+        '                SET PCDESCONTOFIDELIDADE.PERCDESCONTO = REG.PERC' +
+        'DESC, PCDESCONTOFIDELIDADE.PVENDACRM = REG.PRECOCRM'
+      
+        '                WHERE     PCDESCONTOFIDELIDADE.CODFIDELIDADE = R' +
+        'EG.CODFIDELIDADE'
+      
+        '                      AND PCDESCONTOFIDELIDADE.CODPROD = REG.COD' +
+        'PROD'
+      
+        '                      AND PCDESCONTOFIDELIDADE.CODFILIAL = REG.C' +
+        'ODFILIAL'
+      
+        '                      AND PCDESCONTOFIDELIDADE.CODCLICONVENIO = ' +
+        'REG.CODCLICONVENIO;'
+      '            END LOOP;'
+      ''
+      '        ELSE'
+      ''
       ''
       '                /*REACALCULAR PRE'#199'O VAREJO*/'
       '                FOR REG'
@@ -5212,18 +5355,16 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
       '                           PCDESCONTOFIDELIDADE.CODPROD,'
       '                           PCDESCONTOFIDELIDADE.CODCLICONVENIO,'
       
-        '                           CASE WHEN PKG_I9UTILITARIO.GET_PRECO_' +
-        'QTUNIT1(PQTUNIT, PNOVOPRECO) < PCDESCONTOFIDELIDADE.PVENDACRM TH' +
-        'EN 0 ELSE PCDESCONTOFIDELIDADE.PVENDACRM END PRECOCRM,'
+        '                           CASE WHEN PNOVOPRECO < PCDESCONTOFIDE' +
+        'LIDADE.PVENDACRM THEN 0 ELSE PCDESCONTOFIDELIDADE.PVENDACRM END ' +
+        'PRECOCRM,'
       '                           CASE'
       
-        '                               WHEN PKG_I9UTILITARIO.GET_PRECO_Q' +
-        'TUNIT1(PQTUNIT, PNOVOPRECO) < PCDESCONTOFIDELIDADE.PVENDACRM THE' +
-        'N 0'
+        '                               WHEN PNOVOPRECO < PCDESCONTOFIDEL' +
+        'IDADE.PVENDACRM THEN 0'
       
         '                               ELSE PKG_I9UTILITARIO.DIFERENCA_E' +
-        'NTRE_MARGENS (PKG_I9UTILITARIO.GET_PRECO_QTUNIT1(PQTUNIT, PNOVOP' +
-        'RECO), PCDESCONTOFIDELIDADE.PVENDACRM)'
+        'NTRE_MARGENS (PNOVOPRECO, PCDESCONTOFIDELIDADE.PVENDACRM)'
       '                           END'
       '                               PERCDESC'
       '                    FROM PCDESCONTOFIDELIDADE'
@@ -5270,18 +5411,16 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
       '                           PCDESCONTOFIDELIDADE.CODFILIAL,'
       '                           PCDESCONTOFIDELIDADE.CODCLICONVENIO,'
       
-        '                           CASE WHEN PKG_I9UTILITARIO.GET_PRECO_' +
-        'QTUNIT1(PQTUNIT, PNOVOPRECOATACADO) < PCDESCONTOFIDELIDADE.PVEND' +
-        'ACRM THEN 0 ELSE PCDESCONTOFIDELIDADE.PVENDACRM END PRECOCRM,'
+        '                           CASE WHEN PNOVOPRECOATACADO < PCDESCO' +
+        'NTOFIDELIDADE.PVENDACRM THEN 0 ELSE PCDESCONTOFIDELIDADE.PVENDAC' +
+        'RM END PRECOCRM,'
       '                           CASE'
       
-        '                               WHEN PKG_I9UTILITARIO.GET_PRECO_Q' +
-        'TUNIT1(PQTUNIT, PNOVOPRECOATACADO) < PCDESCONTOFIDELIDADE.PVENDA' +
-        'CRM THEN 0'
+        '                               WHEN PNOVOPRECOATACADO < PCDESCON' +
+        'TOFIDELIDADE.PVENDACRM THEN 0'
       
         '                               ELSE PKG_I9UTILITARIO.DIFERENCA_E' +
-        'NTRE_MARGENS (PKG_I9UTILITARIO.GET_PRECO_QTUNIT1(PQTUNIT, PNOVOP' +
-        'RECOATACADO), PCDESCONTOFIDELIDADE.PVENDACRM)'
+        'NTRE_MARGENS (PNOVOPRECOATACADO, PCDESCONTOFIDELIDADE.PVENDACRM)'
       '                           END'
       '                               PERCDESC'
       '                    FROM PCDESCONTOFIDELIDADE'
@@ -5320,190 +5459,6 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
         'O = REG.CODCLICONVENIO;'
       '                END LOOP;'
       ''
-      ''
-      '        ELSE'
-      ''
-      '            IF VFILPRECOPOREMBALAGEM = '#39'S'#39' THEN'
-      ''
-      '                        /*REACALCULAR PRE'#199'O VAREJO*/'
-      '                        FOR REG'
-      
-        '                        IN (SELECT PCDESCONTOFIDELIDADE.CODFIDEL' +
-        'IDADE,'
-      '                                   PCEMBALAGEM.CODPROD,'
-      '                                   PCEMBALAGEM.CODFILIAL,'
-      
-        '                                   PKG_I9UTILITARIO.GET_PRECO_QT' +
-        'UNIT1(PCEMBALAGEM.QTUNIT, PCEMBALAGEM.PVENDA) as pvenda,'
-      
-        '                                   PCDESCONTOFIDELIDADE.CODCLICO' +
-        'NVENIO,'
-      
-        '                                   CASE WHEN PKG_I9UTILITARIO.GE' +
-        'T_PRECO_QTUNIT1(PCEMBALAGEM.QTUNIT, PCEMBALAGEM.PVENDA) < PCDESC' +
-        'ONTOFIDELIDADE.PVENDACRM THEN 0'
-      
-        '                                    ELSE PCDESCONTOFIDELIDADE.PV' +
-        'ENDACRM END PRECOCRM,'
-      '                                   CASE'
-      
-        '                                       WHEN PKG_I9UTILITARIO.GET' +
-        '_PRECO_QTUNIT1(PCEMBALAGEM.QTUNIT, PCEMBALAGEM.PVENDA) < PCDESCO' +
-        'NTOFIDELIDADE.PVENDACRM THEN 0'
-      
-        '                                       ELSE PKG_I9UTILITARIO.DIF' +
-        'ERENCA_ENTRE_MARGENS (PKG_I9UTILITARIO.GET_PRECO_QTUNIT1(PCEMBAL' +
-        'AGEM.QTUNIT, PCEMBALAGEM.PVENDA), PCDESCONTOFIDELIDADE.PVENDACRM' +
-        ')'
-      '                                   END'
-      '                                       PERCDESC'
-      
-        '                            FROM PCEMBALAGEM, PCDESCONTOFIDELIDA' +
-        'DE'
-      
-        '                            WHERE     PCEMBALAGEM.CODFILIAL = PC' +
-        'DESCONTOFIDELIDADE.CODFILIAL'
-      
-        '                                  AND PCEMBALAGEM.CODPROD = PCDE' +
-        'SCONTOFIDELIDADE.CODPROD'
-      
-        '                                  AND PCEMBALAGEM.QTUNIT IN (SEL' +
-        'ECT MIN (QTUNIT)'
-      
-        '                                                             FRO' +
-        'M PCEMBALAGEM PE'
-      
-        '                                                             WHE' +
-        'RE PE.CODPROD = PCEMBALAGEM.CODPROD AND PE.DTINATIVO IS NULL)'
-      
-        '                                  AND PCEMBALAGEM.CODFILIAL = PC' +
-        'ODFILIAL'
-      
-        '                                  AND PCEMBALAGEM.CODPROD = PCOD' +
-        'PROD'
-      
-        '                                  AND NVL (PCDESCONTOFIDELIDADE.' +
-        'PVENDACRM, 0) > 0'
-      
-        '                                  AND TRUNC (SYSDATE) BETWEEN PC' +
-        'DESCONTOFIDELIDADE.DTINICIAL AND DTFINAL'
-      
-        '                                  AND PCEMBALAGEM.DTINATIVO IS N' +
-        'ULL'
-      
-        '                                  AND PCDESCONTOFIDELIDADE.DTEXC' +
-        'LUSAO IS NULL'
-      
-        '                                  AND PCDESCONTOFIDELIDADE.CODCL' +
-        'ICONVENIO = VCODCLICRMGERAL)'
-      '                        LOOP'
-      '                            UPDATE PCDESCONTOFIDELIDADE'
-      
-        '                            SET PCDESCONTOFIDELIDADE.PERCDESCONT' +
-        'O = REG.PERCDESC, PCDESCONTOFIDELIDADE.PVENDACRM = REG.PRECOCRM'
-      
-        '                            WHERE     PCDESCONTOFIDELIDADE.CODFI' +
-        'DELIDADE = REG.CODFIDELIDADE'
-      
-        '                                  AND PCDESCONTOFIDELIDADE.CODPR' +
-        'OD = REG.CODPROD'
-      
-        '                                  AND PCDESCONTOFIDELIDADE.CODFI' +
-        'LIAL = REG.CODFILIAL'
-      
-        '                                  AND PCDESCONTOFIDELIDADE.CODCL' +
-        'ICONVENIO = REG.CODCLICONVENIO;'
-      '                        END LOOP;'
-      ''
-      ''
-      '                        /*RECALCULAR PRE'#199'O ATACADO*/'
-      '                        FOR REG'
-      
-        '                        IN (SELECT PCDESCONTOFIDELIDADE.CODFIDEL' +
-        'IDADE,'
-      '                                   PCEMBALAGEM.CODPROD,'
-      '                                   PCEMBALAGEM.CODFILIAL,'
-      
-        '                                   PKG_I9UTILITARIO.GET_PRECO_QT' +
-        'UNIT1(PCEMBALAGEM.QTUNIT, PCEMBALAGEM.PVENDAATAC) as PVENDAATAC,'
-      
-        '                                   PCDESCONTOFIDELIDADE.CODCLICO' +
-        'NVENIO,'
-      
-        '                                   CASE WHEN PKG_I9UTILITARIO.GE' +
-        'T_PRECO_QTUNIT1(PCEMBALAGEM.QTUNIT, PCEMBALAGEM.PVENDAATAC) < PC' +
-        'DESCONTOFIDELIDADE.PVENDACRM THEN 0 ELSE PCDESCONTOFIDELIDADE.PV' +
-        'ENDACRM END PRECOCRM,'
-      '                                   CASE'
-      
-        '                                       WHEN PKG_I9UTILITARIO.GET' +
-        '_PRECO_QTUNIT1(PCEMBALAGEM.QTUNIT, PCEMBALAGEM.PVENDAATAC) < PCD' +
-        'ESCONTOFIDELIDADE.PVENDACRM THEN 0'
-      
-        '                                       ELSE PKG_I9UTILITARIO.DIF' +
-        'ERENCA_ENTRE_MARGENS (PKG_I9UTILITARIO.GET_PRECO_QTUNIT1(PCEMBAL' +
-        'AGEM.QTUNIT, PCEMBALAGEM.PVENDAATAC), PCDESCONTOFIDELIDADE.PVEND' +
-        'ACRM)'
-      '                                   END'
-      '                                       PERCDESC'
-      
-        '                            FROM PCEMBALAGEM, PCDESCONTOFIDELIDA' +
-        'DE'
-      
-        '                            WHERE     PCEMBALAGEM.CODFILIAL = PC' +
-        'DESCONTOFIDELIDADE.CODFILIAL'
-      
-        '                                  AND PCEMBALAGEM.CODPROD = PCDE' +
-        'SCONTOFIDELIDADE.CODPROD'
-      
-        '                                  AND PCEMBALAGEM.QTUNIT IN (SEL' +
-        'ECT MIN (QTUNIT)'
-      
-        '                                                             FRO' +
-        'M PCEMBALAGEM PE'
-      
-        '                                                             WHE' +
-        'RE PE.CODPROD = PCEMBALAGEM.CODPROD AND PE.DTINATIVO IS NULL)'
-      
-        '                                  AND PCEMBALAGEM.CODFILIAL = PC' +
-        'ODFILIAL'
-      
-        '                                  AND PCEMBALAGEM.CODPROD = PCOD' +
-        'PROD'
-      
-        '                                  AND NVL (PCDESCONTOFIDELIDADE.' +
-        'PVENDACRM, 0) > 0'
-      
-        '                                  AND PCEMBALAGEM.DTINATIVO IS N' +
-        'ULL'
-      
-        '                                  AND PCDESCONTOFIDELIDADE.DTEXC' +
-        'LUSAO IS NULL'
-      
-        '                                  AND TRUNC (SYSDATE) BETWEEN PC' +
-        'DESCONTOFIDELIDADE.DTINICIAL AND DTFINAL'
-      
-        '                                  AND PCDESCONTOFIDELIDADE.CODCL' +
-        'ICONVENIO = VCODCLICRMATACADO)'
-      '                        LOOP'
-      '                            UPDATE PCDESCONTOFIDELIDADE'
-      
-        '                            SET PCDESCONTOFIDELIDADE.PERCDESCONT' +
-        'O = REG.PERCDESC, PCDESCONTOFIDELIDADE.PVENDACRM = REG.PRECOCRM'
-      
-        '                            WHERE     PCDESCONTOFIDELIDADE.CODFI' +
-        'DELIDADE = REG.CODFIDELIDADE'
-      
-        '                                  AND PCDESCONTOFIDELIDADE.CODPR' +
-        'OD = REG.CODPROD'
-      
-        '                                  AND PCDESCONTOFIDELIDADE.CODFI' +
-        'LIAL = REG.CODFILIAL'
-      
-        '                                  AND PCDESCONTOFIDELIDADE.CODCL' +
-        'ICONVENIO = REG.CODCLICONVENIO;'
-      '                        END LOOP;'
-      '            END IF;'
       '        END IF;'
       ''
       ''
@@ -5537,13 +5492,6 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
       ''
       '        IF VCODCLI > 0'
       '        THEN'
-      ''
-      '            DELETE FROM PCCARTAOCRM'
-      '             WHERE CODCLI = VCODCLI;'
-      ''
-      '            INSERT INTO PCCARTAOCRM (NUMCARTAO, CODCLI, STATUS)'
-      '            VALUES (VNUMCARTAOFIDELIDADE, VCODCLI, '#39'1'#39');'
-      ''
       '            UPDATE I9GRUPOCRMI'
       
         '            SET CODCLI = VCODCLI, I9GRUPOCRMI.DTCADASTRO = SYSDA' +
@@ -5822,7 +5770,7 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
       
         '                RAISE_APPLICATION_ERROR (-20001, '#39'ERRO DA VERBA:' +
         ' '#39' || VRETORNO);'
-      '                RETURN;'
+      '                RETURN;                '
       '            END IF;'
       ''
       
@@ -5833,14 +5781,14 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
       '            UPDATE PCVERBA'
       '            SET PCVERBA.CODCAMPANHACRM = REG.CODCAMPANHACRM'
       '            WHERE PCVERBA.NUMVERBA = TO_NUMBER (VRETORNO);'
-      ''
-      '            UPDATE I9CONFIGVERBACRM'
+      '            '
+      '            UPDATE I9CONFIGVERBACRM '
       '            SET I9CONFIGVERBACRM.NUMVERBA = TO_NUMBER (VRETORNO)'
       
         '            WHERE I9CONFIGVERBACRM.CODCAMPANHACRM = REG.CODCAMPA' +
         'NHACRM'
       '            AND I9CONFIGVERBACRM.CODFORNEC = REG.CODFORNEC;'
-      ''
+      '            '
       '        END LOOP;'
       ''
       ''
@@ -6403,47 +6351,55 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
     Left = 1000
     Top = 480
   end
-  object TABLE_I9CONTROLEINTEGRACAO: TUniQuery
+  object TRG_I9PRECOCRM_PCTABPR: TUniQuery
     Connection = DmLogin.Conexao
     SQL.Strings = (
-      'CREATE TABLE I9CONTROLEINTEGRACAO'
-      '    (INTEGRACAO                     VARCHAR2(100 BYTE),'
-      '    TIPO                           VARCHAR2(100 BYTE),'
-      '    DTINTEGRACAO                   DATE,'
-      '    NUMERADOR                      NUMBER(20,0))')
-    Left = 424
-    Top = 144
-  end
-  object TRG_I9_RECALCULAR_PRECOEMB: TUniQuery
-    Connection = DmLogin.Conexao
-    SQL.Strings = (
-      'CREATE OR REPLACE TRIGGER trg_i9precocrm_pcembalagem'
+      'CREATE OR REPLACE TRIGGER TRG_I9PRECOCRM_PCTABPR'
       ' BEFORE'
-      '   UPDATE OF pvenda, pvendaatac'
-      ' ON pcembalagem'
+      '   UPDATE OF PVENDA, PVENDAATAC'
+      ' ON PCTABPR'
       'REFERENCING NEW AS NEW OLD AS OLD'
       ' FOR EACH ROW'
+      'DECLARE'
+      '  VSMAQUINA     VARCHAR2(80);'
+      '  VSUSUARIO     VARCHAR2(80);'
+      '  VSPROGRAMA    VARCHAR2(80);'
       'BEGIN'
-      '    IF     (NVL (:NEW.QTUNIT, 1) = 1)'
+      ''
       
-        '       AND ( (:NEW.PVENDA <> NVL (:OLD.PVENDA, 0)) OR (:NEW.PVEN' +
-        'DAATAC <> NVL (:OLD.PVENDAATAC, 0)))'
+        '  VSMAQUINA  := SUBSTR(SYS_CONTEXT('#39'USERENV'#39', '#39'TERMINAL'#39'), 1, 80' +
+        ');'
       
-        '       AND (NVL (:NEW.PVENDA, 0) > 0 OR NVL (:NEW.PVENDAATAC, 0)' +
-        ' > 0)'
-      '    THEN'
-      '        PKG_I9CLUBECRM.RECALCULARPRECOCRM (:NEW.CODFILIAL,'
-      '                                           :NEW.CODPROD,'
-      '                                           :NEW.PVENDA,'
-      '                                           :NEW.PVENDAATAC);'
-      '    END IF;'
-      'EXCEPTION'
-      '    WHEN OTHERS'
-      '    THEN'
-      '        NULL;'
+        '  VSUSUARIO  := SUBSTR(SYS_CONTEXT('#39'USERENV'#39', '#39'OS_USER'#39'), 1, 80)' +
+        ';'
+      '  VSPROGRAMA := SUBSTR(SYS_CONTEXT('#39'USERENV'#39', '#39'MODULE'#39'), 1, 80);'
+      ''
+      '  IF VSPROGRAMA IS NULL THEN'
+      '    VSPROGRAMA := '#39'Client do oracle desatualizado'#39';'
+      '  END IF;'
+      ''
+      
+        '  IF ( :NEW.PVENDA <> NVL(:OLD.PVENDA,0) ) OR ( :NEW.PVENDAATAC ' +
+        '<> NVL(:OLD.PVENDAATAC,0) ) '
+      '  THEN'
+      ''
+      '    FOR REG IN (SELECT'
+      '                DISTINCT CODFILIAL'
+      '                FROM PCPARAMFILIAL'
+      '                WHERE NOME LIKE '#39'NUMREGIAOPADRAOVAREJO'#39
+      '                AND VALOR = :NEW.NUMREGIAO'
+      '                AND CODFILIAL <> '#39'99'#39')'
+      '    LOOP'
+      
+        '        PKG_I9CLUBECRM.RECALCULARPRECOCRM(REG.CODFILIAL, :NEW.CO' +
+        'DPROD, :NEW.PVENDA, :NEW.PVENDAATAC);'
+      '    END LOOP;'
+      ''
+      '  END IF;'
+      ''
       'END;')
-    Left = 880
-    Top = 528
+    Left = 432
+    Top = 112
     ParamData = <
       item
         DataType = ftUnknown
@@ -6456,100 +6412,126 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
         Value = nil
       end>
   end
-  object TRG_PCEMBALAGEM_I9CAMPANHACRM: TUniQuery
+  object TRG_I9CRM_PCPRECOPROM: TUniQuery
     Connection = DmLogin.Conexao
     SQL.Strings = (
-      'CREATE OR REPLACE TRIGGER TRG_PCEMBALAGEM_I9CAMPANHACRM'
-      '    BEFORE UPDATE OF POFERTA, DTOFERTAINI, DTOFERTAFIM'
-      '    ON PCEMBALAGEM'
+      'CREATE OR REPLACE TRIGGER TRG_I9CRM_PCPRECOPROM'
+      '    BEFORE INSERT OR UPDATE'
+      '    ON PCPRECOPROM'
       '    REFERENCING NEW AS NEW OLD AS OLD'
       '    FOR EACH ROW'
       'DECLARE'
-      '    TEMCRM   VARCHAR2 (1);'
+      '    VCOUNT   NUMBER (10);    '
       'BEGIN'
-      '    IF NVL (:NEW.POFERTA, 0) > 0'
-      '    THEN'
-      '        BEGIN'
-      '            SELECT COUNT (*)'
-      '              INTO TEMCRM'
-      '              FROM PCDESCONTOFIDELIDADE'
+      ''
+      '    SELECT COUNT (*)'
+      '      INTO VCOUNT'
+      '      FROM PCDESCONTOFIDELIDADE'
       
-        '             WHERE     PCDESCONTOFIDELIDADE.CODFILIAL = :NEW.COD' +
+        '     WHERE     PCDESCONTOFIDELIDADE.CODFILIAL IN (SELECT DISTINC' +
+        'T CODFILIAL'
+      
+        '                                                    FROM PCPARAM' +
         'FILIAL'
       
-        '                   AND PCDESCONTOFIDELIDADE.CODPROD IN (SELECT Y' +
-        '.CODPROD'
+        '                                                   WHERE NOME LI' +
+        'KE '#39'NUMREGIAOPADRAOVAREJO'#39' AND VALOR = :NEW.NUMREGIAO AND CODFIL' +
+        'IAL <> '#39'99'#39')'
+      '           AND PCDESCONTOFIDELIDADE.CODPROD IN (SELECT Y.CODPROD'
       
-        '                                                          FROM P' +
-        'CPRODUT Y'
+        '                                                  FROM PCPRODUT ' +
+        'Y'
       
-        '                                                         WHERE Y' +
-        '.CODPRODPRINC IN (SELECT X.CODPRODPRINC'
-      
-        '                                                                ' +
-        '                    FROM PCPRODUT X'
-      
-        '                                                                ' +
-        '                   WHERE X.CODPROD = :NEW.CODPROD))'
-      
-        '                   AND PCDESCONTOFIDELIDADE.CODCLICONVENIO = (SE' +
-        'LECT CODCLICRMGERAL'
+        '                                                 WHERE Y.CODPROD' +
+        'PRINC IN (SELECT X.CODPRODPRINC'
       
         '                                                                ' +
-        'FROM PCCONSUM'
+        '            FROM PCPRODUT X'
       
-        '                                                               W' +
-        'HERE ROWNUM = 1)'
+        '                                                                ' +
+        '           WHERE X.CODPROD = :NEW.CODPROD))           '
+      '           AND NVL (PCDESCONTOFIDELIDADE.PERCDESCONTO, 0) > 0'
+      '           AND PCDESCONTOFIDELIDADE.DTEXCLUSAO IS NULL'
       
-        '                   AND NVL (PCDESCONTOFIDELIDADE.PVENDACRM, 0) >' +
-        ' 0'
+        '           AND PCDESCONTOFIDELIDADE.DTFINAL >= TRUNC (SYSDATE)  ' +
+        '         '
       
-        '                   AND NVL (PCDESCONTOFIDELIDADE.PERCDESCONTO, 0' +
-        ') > 0'
-      '                   AND PCDESCONTOFIDELIDADE.DTEXCLUSAO IS NULL'
+        '           AND (   TRUNC (PCDESCONTOFIDELIDADE.DTINICIAL) BETWEE' +
+        'N TRUNC (:NEW.DTINICIOVIGENCIA) AND TRUNC (:NEW.DTFIMVIGENCIA)'
       
-        '                   AND PCDESCONTOFIDELIDADE.DTFINAL >= TRUNC (SY' +
-        'SDATE)'
+        '                OR TRUNC (PCDESCONTOFIDELIDADE.DTFINAL) BETWEEN ' +
+        'TRUNC (:NEW.DTINICIOVIGENCIA) AND TRUNC (:NEW.DTFIMVIGENCIA)'
       
-        '                   AND PCDESCONTOFIDELIDADE.CODCLICONVENIO IN (S' +
-        'ELECT CODCLICRMGERAL FROM PCCONSUM)'
+        '                OR TRUNC (:NEW.DTINICIOVIGENCIA) BETWEEN TRUNC (' +
+        'PCDESCONTOFIDELIDADE.DTINICIAL) AND TRUNC (PCDESCONTOFIDELIDADE.' +
+        'DTFINAL)'
       
-        '                   AND (   TRUNC (PCDESCONTOFIDELIDADE.DTINICIAL' +
-        ') BETWEEN TRUNC (:NEW.DTOFERTAINI) AND TRUNC (:NEW.DTOFERTAFIM)'
-      
-        '                        OR TRUNC (PCDESCONTOFIDELIDADE.DTFINAL) ' +
-        'BETWEEN TRUNC (:NEW.DTOFERTAINI) AND TRUNC (:NEW.DTOFERTAFIM)'
-      
-        '                        OR TRUNC (:NEW.DTOFERTAINI) BETWEEN TRUN' +
-        'C (PCDESCONTOFIDELIDADE.DTINICIAL) AND TRUNC (PCDESCONTOFIDELIDA' +
-        'DE.DTFINAL)'
-      
-        '                        OR TRUNC (:NEW.DTOFERTAFIM) BETWEEN TRUN' +
-        'C (PCDESCONTOFIDELIDADE.DTINICIAL) AND TRUNC (PCDESCONTOFIDELIDA' +
-        'DE.DTFINAL));'
+        '                OR TRUNC (:NEW.DTFIMVIGENCIA) BETWEEN TRUNC (PCD' +
+        'ESCONTOFIDELIDADE.DTINICIAL) AND TRUNC (PCDESCONTOFIDELIDADE.DTF' +
+        'INAL));'
       ''
-      ''
-      '            IF TEMCRM > 0'
-      '            THEN'
+      '    IF VCOUNT > 0'
+      '    THEN'
       
-        '                RAISE_APPLICATION_ERROR (-20343, '#39'N'#227'o foi possiv' +
-        'el incluir a oferta pois o item j'#225' est'#225' no CLUBE DE DESCONTOS.'#39')' +
-        ';'
-      '            END IF;'
-      '        EXCEPTION'
-      '            WHEN NO_DATA_FOUND'
-      '            THEN'
-      '                NULL;'
-      '        END;'
+        '        RAISE_APPLICATION_ERROR (-20001, '#39'****ERRO - J'#193' EXISTE U' +
+        'MA CAMPANHA DO CLUBE DE DESCONTOS CADASTRADA - PRODUTO: '#39'||:NEW.' +
+        'CODPROD||'#39' ****'#39');'
       '    END IF;'
       'END;')
-    Left = 1040
-    Top = 536
+    Left = 432
+    Top = 176
     ParamData = <
       item
         DataType = ftUnknown
         Name = 'NEW'
         Value = nil
       end>
+  end
+  object JOB_RECALCULAR_ATACK: TUniQuery
+    SQL.Strings = (
+      'BEGIN'
+      '    FOR reg'
+      '    IN (SELECT   DISTINCT pcembalagem.codprod,'
+      '                          pctabpr.pvenda,'
+      '                          pctabpr.pvendaatac,'
+      '                          pcembalagem.codfilial'
+      '          FROM   pcembalagem, pcdescontofidelidade, pctabpr'
+      
+        '         WHERE   pcembalagem.codfilial = pcdescontofidelidade.co' +
+        'dfilial'
+      
+        '                 AND pcembalagem.codprod = pcdescontofidelidade.' +
+        'codprod'
+      
+        '                 AND TRUNC (SYSDATE) BETWEEN TRUNC(pcdescontofid' +
+        'elidade.dtinicial)'
+      
+        '                                         AND  TRUNC(pcdescontofi' +
+        'delidade.dtfinal)'
+      
+        '                 AND pctabpr.codprod = pcdescontofidelidade.codp' +
+        'rod'
+      
+        '                 AND pcdescontofidelidade.codcliconvenio IS NOT ' +
+        'NULL'
+      '                 AND pctabpr.numregiao ='
+      '                        NVL ('
+      '                            pkg_i9utilitario.buscaparametro ('
+      '                                pcembalagem.codfilial,'
+      '                                '#39'NUMREGIAOPADRAOVAREJO'#39'),'
+      '                            '#39'1'#39')'
+      
+        '                 AND NVL (pcdescontofidelidade.pvendacrm, 0) > 0' +
+        ')'
+      '    LOOP'
+      '        pkg_i9clubecrm.recalcularprecocrm (reg.codfilial,'
+      '                                           reg.codprod,'
+      '                                           reg.pvenda,'
+      '                                           reg.pvendaatac);'
+      '        COMMIT;'
+      '    END LOOP;'
+      'END;')
+    Left = 928
+    Top = 544
   end
 end

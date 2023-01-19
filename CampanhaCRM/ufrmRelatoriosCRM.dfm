@@ -168,7 +168,6 @@ object frmRelatoriosCRM: TfrmRelatoriosCRM
         0002000000030000000300000003000000030000000300000004000000040000
         0004000000040000000400000005000000050000000500000003}
       TabOrder = 2
-      Visible = False
       OnClick = btnRelatorioRebaixaClick
     end
     object btnAcompCampanhaComprador: TcxButton
@@ -217,7 +216,6 @@ object frmRelatoriosCRM: TfrmRelatoriosCRM
         0002000000030000000300000003000000030000000300000004000000040000
         0004000000040000000400000005000000050000000500000003}
       TabOrder = 3
-      Visible = False
       OnClick = btnAcompCampanhaCompradorClick
     end
     object btnDadosCampanhaComprador: TcxButton

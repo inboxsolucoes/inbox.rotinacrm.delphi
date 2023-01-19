@@ -19,7 +19,7 @@ uses
   dxSpreadSheetClasses, dxSpreadSheetContainers, dxSpreadSheetFormulas,
   dxSpreadSheetHyperlinks, dxSpreadSheetFunctions, dxSpreadSheetGraphics,
   dxSpreadSheetPrinting, dxSpreadSheetTypes, dxSpreadSheetUtils, dxSpreadSheet,
-  cxProgressBar, dxSkinsdxStatusBarPainter, dxStatusBar,
+  cxProgressBar,  dxSkinsdxStatusBarPainter, dxStatusBar,
   cxGridBandedTableView, cxGridDBBandedTableView, cxButtonEdit, ufrmDetalheCampanhaCRM,
   dxSkinsCore, dxSkinMetropolis, dxSkinVisualStudio2013Light,
   dxSkinscxPCPainter, dxBarBuiltInMenu, ufrmRelatoriosCRM, Datasnap.DBClient,
@@ -226,21 +226,6 @@ type
     tblClientesGrupoCODCLI: TcxGridDBColumn;
     tblClientesGrupoCGCENT: TcxGridDBColumn;
     btnImportarCSV: TcxButton;
-    actConfigInbox: TAction;
-    cxGroupBox1: TcxGroupBox;
-    cxLabel11: TcxLabel;
-    cxGrid2: TcxGrid;
-    tblParametros: TcxGridDBTableView;
-    cxGrid2Level1: TcxGridLevel;
-    dsParametros: TUniDataSource;
-    qrConsultaParametros: TUniQuery;
-    tblParametrosCODFILIAL: TcxGridDBColumn;
-    tblParametrosCODPARAMETRO: TcxGridDBColumn;
-    tblParametrosDESCRICAO: TcxGridDBColumn;
-    tblParametrosVALOR_ATUAL: TcxGridDBColumn;
-    tblParametrosVALOR_ESPERADO: TcxGridDBColumn;
-    tblParametrosNOME: TcxGridDBColumn;
-    cxLabel14: TcxLabel;
     procedure btnIncluirCampanhaClick(Sender: TObject);
     procedure btnAvancarClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -295,12 +280,6 @@ type
     procedure btnVoltarClienteClick(Sender: TObject);
     procedure btnImportarCSVClick(Sender: TObject);
     procedure cbCampanhaDirecionadaPropertiesChange(Sender: TObject);
-    procedure actConfigInboxExecute(Sender: TObject);
-    procedure pcIncluirPageChanging(Sender: TObject; NewPage: TcxTabSheet;
-      var AllowChange: Boolean);
-    procedure tblParametrosCustomDrawCell(Sender: TcxCustomGridTableView;
-      ACanvas: TcxCanvas; AViewInfo: TcxGridTableDataCellViewInfo;
-      var ADone: Boolean);
   private
     procedure InserirProdutoCampanha;
     procedure GravarCampanhaCRM;
@@ -317,7 +296,6 @@ type
     procedure IniciarFiliais;
     procedure limpaCamposCampanha;
     procedure limparTela;
-    procedure carregaParametros132;
   public
     vbEstaEditando: Boolean;
     vItenAbaixoDaMargemMinima:Boolean;
@@ -331,7 +309,7 @@ implementation
 
 {$R *.dfm}
 
-uses uPesquisas, uDMCampanhaCRM, uLogin, uFuncoes, uFrmLoading, uDMOfertas, ufrmEstruturaBancoRotina, ufrmFiltrosCRM, ufrmConfiguracaoInbox;
+uses uPesquisas, uDMCampanhaCRM, uLogin, uFuncoes, uFrmLoading, uDMOfertas, ufrmEstruturaBancoRotina, ufrmFiltrosCRM;
 
 procedure TfrmCampanhaCRM.actAprovarExecute(Sender: TObject);
 var
@@ -385,25 +363,6 @@ begin
   end;
 end;
 
-procedure TfrmCampanhaCRM.actConfigInboxExecute(Sender: TObject);
-var
-  vResposta : String;
-begin
-
-  vResposta := inputBox('Password',#31+'Digite sua Senha','');
-  if vResposta <> 'esw886' then
-  begin
-    Exit;
-  end;
-
-  try
-    Application.CreateForm(TfrmConfiguracaoInbox, frmConfiguracaoInbox);
-    frmConfiguracaoInbox.ShowModal;
-  finally
-    frmConfiguracaoInbox.Free;
-  end;
-end;
-
 procedure TfrmCampanhaCRM.actDesvincularCampanhaFiliaisExecute(Sender: TObject);
 begin
   if not DMCampanhaCRM.qrConsultaCampanha.IsEmpty then
@@ -427,20 +386,11 @@ end;
 
 procedure TfrmCampanhaCRM.actInserirF2Execute(Sender: TObject);
 begin
-
-  try
-    if not DMCampanhaCRM.cdsProdutosIncluidos.Active then
-    begin
-      DMCampanhaCRM.cdsProdutosIncluidos.CreateDataSet;
-      DMCampanhaCRM.cdsProdutosIncluidos.Open;
-    end;
-  except
-    on e : Exception do
-    begin
-      DmLogin.MensagemInformacao('Erro ao abrir CDS: ' + E.Message);
-    end;
+  if not DMCampanhaCRM.cdsProdutosIncluidos.Active then
+  begin
+    DMCampanhaCRM.cdsProdutosIncluidos.CreateDataSet;
+    DMCampanhaCRM.cdsProdutosIncluidos.Open;
   end;
-
 
   InserirProdutoCampanha;
 end;
@@ -699,7 +649,6 @@ procedure TfrmCampanhaCRM.btnIncluirCampanhaClick(Sender: TObject);
 begin
 
   IniciarFiliais;
-  carregaParametros132;
   pcPrincipal.ActivePage := pageIncluir;
   dtInicialCampanha.Enabled := True;
   vbEstaEditando := False;
@@ -1042,15 +991,6 @@ begin
     ExecSQL;
   end;
 
-end;
-
-procedure TfrmCampanhaCRM.carregaParametros132;
-begin
-  try
-    qrConsultaParametros.Close;
-    qrConsultaParametros.Open;
-  finally
-  end;
 end;
 
 procedure TfrmCampanhaCRM.CarregarCampanha(pCodCampanhaCRM:Integer; pCodFilial:string);
@@ -1617,15 +1557,6 @@ begin
   pbCarregarClientes.Position := 0;
 end;
 
-procedure TfrmCampanhaCRM.pcIncluirPageChanging(Sender: TObject;
-  NewPage: TcxTabSheet; var AllowChange: Boolean);
-begin
-  if NewPage.Name = 'pageFiltros' then
-  begin
-    carregaParametros132;
-  end;
-end;
-
 procedure TfrmCampanhaCRM.IniciarFiliais;
 begin
 
@@ -1676,174 +1607,108 @@ procedure TfrmCampanhaCRM.InserirProdutoCampanha;
 var
   vResult: String;
 begin
-  try
-    DMCampanhaCRM.cdsFiliaisIncluidas.First;
 
-    while not DMCampanhaCRM.cdsFiliaisIncluidas.Eof do
+  if ( (vbEstaEditando) and
+       (not DmLogin.validaPermissao530(43)) and
+       (DMCampanhaCRM.campanhaEstaAprovada(DMCampanhaCRM.cdsProdutosIncluidosCODCAMPANHACRM.AsInteger)) )
+  then
+  begin
+    dmLogin.MensagemErroAbort('Usuario nao possui permissao de incluir item em campanha ja aprovada.');
+  end;
+
+  DMCampanhaCRM.cdsFiliaisIncluidas.First;
+
+  while not DMCampanhaCRM.cdsFiliaisIncluidas.Eof do
+  begin
+
+    if not DMCampanhaCRM.cdsProdutosIncluidos.Active then
+    begin
+      DMCampanhaCRM.cdsProdutosIncluidos.CreateDataSet;
+      DMCampanhaCRM.cdsProdutosIncluidos.Open;
+    end;
+
+    if (DMCampanhaCRM.produtoTemCampanhaCRMVigente(DMCampanhaCRM.cdsFiliaisIncluidasCODIGO.AsString, DMCampanhaCRM.qrPesquisaProdutos.FieldByName('CODPROD').AsInteger, dtInicialCampanha.Date, dtFinalCampanha.Date, DMCampanhaCRM.cdsFiliaisIncluidasCODCAMPANHACRM.AsInteger)) or
+      (DMOfertas.produtoTemOfertaVigente(DMCampanhaCRM.qrPesquisaProdutos.FieldByName('CODPROD').AsFloat, dtInicialCampanha.Date, dtFinalCampanha.Date, DMCampanhaCRM.cdsFiliaisIncluidasCODIGO.AsString, True, 0) > 0) then
+    begin
+      DMCampanhaCRM.cdsFiliaisIncluidas.Next;
+      Continue;
+    end;
+
+
+    {
+    // Valida se tem algum produto da familia com preço diferente.
+    vResult := DMCampanhaCRM.produtoTemFamiliaPrecoDiferente(DMCampanhaCRM.qrPesquisaProdutos.FieldByName('CODPROD').AsInteger, DMCampanhaCRM.cdsFiliaisIncluidasCODIGO.AsString);
+
+    if (vResult <> 'OK') then
+    begin
+      DmLogin.MensagemInformacao(vResult);
+      DMCampanhaCRM.cdsFiliaisIncluidas.Next;
+      Continue;
+    end;
+    }
+
+    if not DMCampanhaCRM.qrPesquisaProdutos.IsEmpty then
     begin
 
-      try
-         if not DMCampanhaCRM.cdsProdutosIncluidos.Active then
-        begin
-          DMCampanhaCRM.cdsProdutosIncluidos.CreateDataSet;
-          DMCampanhaCRM.cdsProdutosIncluidos.Open;
-        end;
-      except
-        on e : Exception do
-        begin
-          DmLogin.MensagemErroAbort('Erro ao abrir cds includos: ' + E.Message);
-        end;
-      end;
+      if not DMCampanhaCRM.cdsProdutosIncluidos.Locate('CODPROD;CODFILIAL', VarArrayOf([DMCampanhaCRM.cdsFiliaisIncluidasCODIGO.AsString, DMCampanhaCRM.qrPesquisaProdutos.FieldByName('CODPROD').AsString]), []) then
+      begin
 
+        // Busca dados do produto
+        DMCampanhaCRM.qrObterDadosProduto.Close;
+        DMCampanhaCRM.qrObterDadosProduto.ParamByName('CODPROD').AsFloat := DMCampanhaCRM.qrPesquisaProdutos.FieldByName('CODPROD').AsFloat;
+        DMCampanhaCRM.qrObterDadosProduto.ParamByName('CODFILIAL').AsString := DMCampanhaCRM.cdsFiliaisIncluidasCODIGO.AsString;
+        DMCampanhaCRM.qrObterDadosProduto.Open;
 
-
-      try
-        if (DMCampanhaCRM.produtoTemCampanhaCRMVigente(DMCampanhaCRM.cdsFiliaisIncluidasCODIGO.AsString, DMCampanhaCRM.qrPesquisaProdutos.FieldByName('CODPROD').AsInteger, dtInicialCampanha.Date, dtFinalCampanha.Date, DMCampanhaCRM.cdsFiliaisIncluidasCODCAMPANHACRM.AsInteger)) or
-          (DMOfertas.produtoTemOfertaVigente(DMCampanhaCRM.qrPesquisaProdutos.FieldByName('CODPROD').AsFloat, dtInicialCampanha.Date, dtFinalCampanha.Date, DMCampanhaCRM.cdsFiliaisIncluidasCODIGO.AsString, True, 0) > 0) then
+        if DMCampanhaCRM.qrObterDadosProduto.RecordCount = 0 then
         begin
+          DmLogin.MensagemInformacao('Dados do produto nao encontrados para a filial, favor verificar.');
           DMCampanhaCRM.cdsFiliaisIncluidas.Next;
           Continue;
         end;
-      except
-        on e : Exception do
+
+        if DMCampanhaCRM.cdsProdutosIncluidos.Locate('CODFILIAL;CODPRODPRINC', VarArrayOf([DMCampanhaCRM.cdsFiliaisIncluidasCODIGO.AsString, DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODPRODPRINC').AsFloat]), []) then
         begin
-          DmLogin.MensagemErroAbort('Erro ao validar campanha vigente: ' + E.Message);
+          DmLogin.MensagemInformacao('Não é possível incluir, já existe um produto da família na campanha para a FILIAL.');
+          DMCampanhaCRM.cdsFiliaisIncluidas.Next;
+          Continue;
         end;
-      end;
 
-     {
-      try
-        // Valida se tem algum produto da familia com preço diferente.
-        vResult := DMCampanhaCRM.produtoTemFamiliaPrecoDiferente(DMCampanhaCRM.qrPesquisaProdutos.FieldByName('CODPROD').AsInteger, DMCampanhaCRM.cdsFiliaisIncluidasCODIGO.AsString);
-
-      except
-        on e : Exception do
+        //Valida se produto já possui combo cadastrado
+        if DMCampanhaCRM.getComboExistente(DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODFILIAL').AsString,
+                                           DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODPRODPRINC').AsFloat,
+                                           dtInicialCampanha.Date,
+                                           dtFinalCampanha.Date)
+        then
         begin
-          DmLogin.MensagemErroAbort('Erro ao validar preço familia diferente: ' + E.Message);
+          DmLogin.MensagemInformacao('Não foi possivel incluir o produto: '+DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODPRODPRINC').AsString + #13 +
+                                     'Pois já se encontra em um combo.');
+          DMCampanhaCRM.cdsFiliaisIncluidas.Next;
+          Continue;
         end;
+
+        // Insere informações do produto na grid inferior
+        DMCampanhaCRM.cdsProdutosIncluidos.Append;
+        DMCampanhaCRM.cdsProdutosIncluidosCODFILIAL.AsString := DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODFILIAL').AsString;
+        DMCampanhaCRM.cdsProdutosIncluidosQTEST.AsFloat := DMCampanhaCRM.qrObterDadosProduto.FieldByName('QTEST').AsFloat;
+        DMCampanhaCRM.cdsProdutosIncluidosCODCAMPANHACRM.AsInteger := DMCampanhaCRM.cdsFiliaisIncluidasCODCAMPANHACRM.AsInteger;
+        DMCampanhaCRM.cdsProdutosIncluidosCODPROD.AsInteger := DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODPROD').AsInteger;
+        DMCampanhaCRM.cdsProdutosIncluidosDESCRICAO.AsString := DMCampanhaCRM.qrObterDadosProduto.FieldByName('DESCRICAO').AsString;
+        DMCampanhaCRM.cdsProdutosIncluidosPVENDA.AsFloat := DMCampanhaCRM.qrObterDadosProduto.FieldByName('PRECO_VAREJO').AsFloat;
+        DMCampanhaCRM.cdsProdutosIncluidosPVENDAATAC.AsFloat := DMCampanhaCRM.qrObterDadosProduto.FieldByName('PRECO_ATACADO').AsFloat;
+        DMCampanhaCRM.cdsProdutosIncluidosCUSTOFIN.AsFloat := DMCampanhaCRM.qrObterDadosProduto.FieldByName('CUSTOFIN').AsFloat;
+        DMCampanhaCRM.cdsProdutosIncluidosQTUNIT.AsFloat := DMCampanhaCRM.qrObterDadosProduto.FieldByName('QTUNIT').AsFloat;
+        DMCampanhaCRM.cdsProdutosIncluidosTEMFAMILIA.AsString := DMCampanhaCRM.qrObterDadosProduto.FieldByName('TEMFAMILIA').AsString;
+        DMCampanhaCRM.cdsProdutosIncluidosCODPRODPRINC.AsInteger := DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODPRODPRINC').AsInteger;
+        DMCampanhaCRM.cdsProdutosIncluidosMARGEMMIN.AsFloat := DMCampanhaCRM.getMargemMinima(DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODFILIAL').AsString,
+                                                                                             DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODPROD').AsInteger);
+        DMCampanhaCRM.cdsProdutosIncluidosCODFORNECPRINC.AsFloat := DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODFORNECPRINC').AsFloat;
+        DMCampanhaCRM.cdsProdutosIncluidosFORNECEDOR.AsString := DMCampanhaCRM.qrObterDadosProduto.FieldByName('FORNECEDOR').AsString;
+        DMCampanhaCRM.cdsProdutosIncluidos.Post;
       end;
-
-
-
-      if (vResult <> 'OK') then
-      begin
-        DmLogin.MensagemInformacao(vResult);
-        DMCampanhaCRM.cdsFiliaisIncluidas.Next;
-        Continue;
-      end;
-      }
-
-      if not DMCampanhaCRM.qrPesquisaProdutos.IsEmpty then
-      begin
-
-        if not DMCampanhaCRM.cdsProdutosIncluidos.Locate('CODPROD;CODFILIAL', VarArrayOf([DMCampanhaCRM.cdsFiliaisIncluidasCODIGO.AsString, DMCampanhaCRM.qrPesquisaProdutos.FieldByName('CODPROD').AsString]), []) then
-        begin
-
-          try
-
-            // Busca dados do produto
-            DMCampanhaCRM.qrObterDadosProduto.Close;
-            DMCampanhaCRM.qrObterDadosProduto.ParamByName('CODPROD').AsFloat := DMCampanhaCRM.qrPesquisaProdutos.FieldByName('CODPROD').AsFloat;
-            DMCampanhaCRM.qrObterDadosProduto.ParamByName('CODFILIAL').AsString := DMCampanhaCRM.cdsFiliaisIncluidasCODIGO.AsString;
-            DMCampanhaCRM.qrObterDadosProduto.Open;
-
-            if DMCampanhaCRM.qrObterDadosProduto.RecordCount = 0 then
-            begin
-              DmLogin.MensagemInformacao('Dados do produto nao encontrados para a filial, favor verificar.');
-              DMCampanhaCRM.cdsFiliaisIncluidas.Next;
-              Continue;
-            end;
-
-          except
-            on e : Exception do
-            begin
-              DmLogin.MensagemErroAbort('Erro ao OBTER DADOS DO PRODUTO: ' + E.Message);
-            end;
-          end;
-
-
-          try
-
-            if DMCampanhaCRM.cdsProdutosIncluidos.Locate('CODFILIAL;CODPRODPRINC', VarArrayOf([DMCampanhaCRM.cdsFiliaisIncluidasCODIGO.AsString, DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODPRODPRINC').AsFloat]), []) then
-            begin
-              DmLogin.MensagemInformacao('Não é possível incluir, já existe um produto da família na campanha para a FILIAL.');
-              DMCampanhaCRM.cdsFiliaisIncluidas.Next;
-              Continue;
-            end;
-
-          except
-            on e : Exception do
-            begin
-              DmLogin.MensagemErroAbort('Erro ao OBTER VALIDAR item Familia: ' + E.Message);
-            end;
-          end;
-
-
-          try
-
-            //Valida se produto já possui combo cadastrado
-            if DMCampanhaCRM.getComboExistente(DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODFILIAL').AsString,
-                                               DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODPRODPRINC').AsFloat,
-                                               dtInicialCampanha.Date,
-                                               dtFinalCampanha.Date)
-            then
-            begin
-              DmLogin.MensagemInformacao('Não foi possivel incluir o produto: '+DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODPRODPRINC').AsString + #13 +
-                                         'Pois já se encontra em um combo.');
-              DMCampanhaCRM.cdsFiliaisIncluidas.Next;
-              Continue;
-            end;
-
-          except
-            on e : Exception do
-            begin
-              DmLogin.MensagemErroAbort('Erro ao validar combo existente: ' + E.Message);
-            end;
-          end;
-
-          try
-
-            // Insere informações do produto na grid inferior
-            DMCampanhaCRM.cdsProdutosIncluidos.Append;
-            DMCampanhaCRM.cdsProdutosIncluidosCODFILIAL.AsString := DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODFILIAL').AsString;
-            DMCampanhaCRM.cdsProdutosIncluidosQTEST.AsFloat := DMCampanhaCRM.qrObterDadosProduto.FieldByName('QTEST').AsFloat;
-            DMCampanhaCRM.cdsProdutosIncluidosCODCAMPANHACRM.AsInteger := DMCampanhaCRM.cdsFiliaisIncluidasCODCAMPANHACRM.AsInteger;
-            DMCampanhaCRM.cdsProdutosIncluidosCODPROD.AsInteger := DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODPROD').AsInteger;
-            DMCampanhaCRM.cdsProdutosIncluidosDESCRICAO.AsString := DMCampanhaCRM.qrObterDadosProduto.FieldByName('DESCRICAO').AsString;
-            DMCampanhaCRM.cdsProdutosIncluidosPVENDA.AsFloat := DMCampanhaCRM.qrObterDadosProduto.FieldByName('PRECO_VAREJO').AsFloat;
-            DMCampanhaCRM.cdsProdutosIncluidosPVENDAATAC.AsFloat := DMCampanhaCRM.qrObterDadosProduto.FieldByName('PRECO_ATACADO').AsFloat;
-            DMCampanhaCRM.cdsProdutosIncluidosCUSTOFIN.AsFloat := DMCampanhaCRM.qrObterDadosProduto.FieldByName('CUSTOFIN').AsFloat;
-            DMCampanhaCRM.cdsProdutosIncluidosQTUNIT.AsFloat := DMCampanhaCRM.qrObterDadosProduto.FieldByName('QTUNIT').AsFloat;
-            DMCampanhaCRM.cdsProdutosIncluidosTEMFAMILIA.AsString := DMCampanhaCRM.qrObterDadosProduto.FieldByName('TEMFAMILIA').AsString;
-            DMCampanhaCRM.cdsProdutosIncluidosCODPRODPRINC.AsInteger := DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODPRODPRINC').AsInteger;
-            DMCampanhaCRM.cdsProdutosIncluidosMARGEMMIN.AsFloat := DMCampanhaCRM.getMargemMinima(DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODFILIAL').AsString,
-                                                                                                 DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODPROD').AsInteger);
-            DMCampanhaCRM.cdsProdutosIncluidosCODFORNECPRINC.AsFloat := DMCampanhaCRM.qrObterDadosProduto.FieldByName('CODFORNECPRINC').AsFloat;
-            DMCampanhaCRM.cdsProdutosIncluidosFORNECEDOR.AsString := DMCampanhaCRM.qrObterDadosProduto.FieldByName('FORNECEDOR').AsString;
-            DMCampanhaCRM.cdsProdutosIncluidos.Post;
-
-
-          except
-            on e : Exception do
-            begin
-              DmLogin.MensagemErroAbort('Erro ao inserir no CDS Produtos Incluidos: ' + E.Message);
-            end;
-          end;
-
-        end;
-      end;
-
-      DMCampanhaCRM.cdsFiliaisIncluidas.Next;
     end;
 
-  except
-    on e : Exception do
-    begin
-      DmLogin.MensagemInformacao('Erro ao inserir item: ' + E.Message);
-    end;
+    DMCampanhaCRM.cdsFiliaisIncluidas.Next;
   end;
-
-
 end;
 
 
@@ -1932,7 +1797,7 @@ end;
 procedure TfrmCampanhaCRM.FormShow(Sender: TObject);
 begin
 
-  if (DmLogin.Hoje >= strtodatetime('20/07/2023 00:00:00')) then
+  if (DmLogin.Hoje >= strtodatetime('20/03/2023 00:00:00')) then
   begin
     DmLogin.MensagemInformacao('Rotina de avaliação expirada, entre em contato com a equipe Inbox Soluções.');
     Application.Terminate;
@@ -2188,19 +2053,6 @@ end;
 procedure TfrmCampanhaCRM.tblListadosCellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
 begin
   InserirProdutoCampanha;
-end;
-
-procedure TfrmCampanhaCRM.tblParametrosCustomDrawCell(
-  Sender: TcxCustomGridTableView; ACanvas: TcxCanvas;
-  AViewInfo: TcxGridTableDataCellViewInfo; var ADone: Boolean);
-begin
-  if (AViewInfo.GridRecord.Values[tblParametros.GetColumnByFieldName('VALOR_ATUAL').Index] <> AViewInfo.GridRecord.Values[tblParametros.GetColumnByFieldName('VALOR_ESPERADO').Index]  ) then begin
-    Acanvas.Font.Color:= clRed;
-  end
-  else
-  begin
-    Acanvas.Font.Color:= clGreen;
-  end;
 end;
 
 procedure TfrmCampanhaCRM.tblPesquisaOfertasCellDblClick(

@@ -52,9 +52,7 @@ uses
   uFrmConcorrentes in 'Pesquisa\uFrmConcorrentes.pas' {FrmConcorrentes},
   uFrmImagemCotacao in 'Precificacao\uFrmImagemCotacao.pas' {frmImagemCotacao},
   ufrmFiltrosCRM in 'CampanhaCRM\ufrmFiltrosCRM.pas' {frmFiltrosCRM},
-  uLayoutImpressao in '..\..\RecursosCompartilhados\delphi\winthor\uLayoutImpressao.pas' {LayoutImpressao},
-  ufrmConfiguracaoInbox in 'CampanhaCRM\ufrmConfiguracaoInbox.pas' {frmConfiguracaoInbox},
-  udmConfiguracaoInbox in 'CampanhaCRM\udmConfiguracaoInbox.pas' {dmConfiguracaoInbox: TDataModule};
+  uLayoutImpressao in '..\..\RecursosCompartilhados\delphi\winthor\uLayoutImpressao.pas' {LayoutImpressao};
 
 {$R *.res}
 
@@ -71,8 +69,6 @@ begin
   Application.CreateForm(TfrmRelatoriosCRM, frmRelatoriosCRM);
   Application.CreateForm(TfrmFiltrosCRM, frmFiltrosCRM);
   Application.CreateForm(TDMOfertas, DMOfertas);
-  Application.CreateForm(TfrmConfiguracaoInbox, frmConfiguracaoInbox);
-  Application.CreateForm(TdmConfiguracaoInbox, dmConfiguracaoInbox);
   Application.Initialize;
   
   Application.Run;

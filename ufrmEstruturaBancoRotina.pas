@@ -185,7 +185,6 @@ begin
   frmBancoDados.criarCampo('PCCLIENT', 'BIOMETRIA2', 'CLOB');
   frmBancoDados.criarCampo('I9CAMPANHACRM', 'CAMPANHADIRECIONADA', 'VARCHAR2(1) DEFAULT ''N'' ');
   frmBancoDados.criarCampo('PCDESCONTOFIDELIDADE', 'CODCLIDIRECIONADO', 'NUMBER(10)');
-  frmBancoDados.criarCampo('PCDESCONTOFIDELIDADE', 'TEMFAMILIA', 'VARCHAR2(1) DEFAULT ''S'' ');
 end;
 
 procedure TfrmEstruturaBancoRotina.inserirParametros;
@@ -359,8 +358,8 @@ begin
         criarTabelas;
         criarCampos;
         criaSequences;
-        criarProcedures;
         criarPackages;
+        criarProcedures;
         criarTriggers;
         criaJobs;
         inserirParametros;
@@ -391,9 +390,8 @@ end;
 procedure TfrmEstruturaBancoRotina.criarProcedures;
 begin
   //frmBancoDados.criarProcedure(dmEstruturaBancoRotina.I9APLICVERBA_CREATE.SQL.Text);
-  frmBancoDados.criarProcedure(dmEstruturaBancoRotina.IS_NUMBER.SQL.Text);
   frmBancoDados.criarProcedure(dmEstruturaBancoRotina.SOMENTENUMERO.SQL.Text);
-  //frmBancoDados.criarProcedure(dmEstruturaBancoRotina.I9_GERAVERBA_CREATE.SQL.Text);
+  frmBancoDados.criarProcedure(dmEstruturaBancoRotina.I9_GERAVERBA_CREATE.SQL.Text);
   //frmBancoDados.criarProcedure(dmEstruturaBancoRotina.PRC_I9GERARANKING.SQL.Text);
   frmBancoDados.criarProcedure(dmEstruturaBancoRotina.PRC_I9ATACVAREJO.SQL.Text);
   //frmBancoDados.criarProcedure(dmEstruturaBancoRotina.PRC_I9INCLUIRCLIENTECRM.SQL.Text);
@@ -422,7 +420,6 @@ begin
   //frmBancoDados.criarTabela('I9GRUPOFILIALCONC', dmEstruturaBancoRotina.TABLE_I9GRUPOFILIALCONC.SQL.Text);
   //frmBancoDados.criarTabela('I9PESQUISACONCORRENTE', dmEstruturaBancoRotina.TABLE_I9PESQUISACONCORRENTE.SQL.Text);
   frmBancoDados.criarTabela('I9LOGROTINA', dmEstruturaBancoRotina.TABLE_I9LOGROTINA.SQL.Text);
-  frmBancoDados.criarTabela('I9CONTROLEINTEGRACAO', dmEstruturaBancoRotina.TABLE_I9CONTROLEINTEGRACAO.SQL.Text);
 end;
 
 procedure TfrmEstruturaBancoRotina.criarTriggers;
@@ -436,11 +433,6 @@ begin
 
   //Não irá utilizar precificação na GRID para CRM somente campanhas
   //frmBancoDados.criarTrigger('TRG_I9_CRMPRODFIDELIDADE', dmEstruturaBancoRotina.TRG_I9_CRMPRODFIDELIDADE.SQL.Text);
-
-  //QUANDO CLIENTE USA PREÇO POR EMBALAGEM
-  frmBancoDados.criarTrigger('TRG_PCEMBALAGEM_I9CAMPANHACRM', dmEstruturaBancoRotina.TRG_PCEMBALAGEM_I9CAMPANHACRM.SQL.Text);
-  frmBancoDados.criarTrigger('TRG_I9_RECALCULAR_PRECOEMB', dmEstruturaBancoRotina.TRG_I9_RECALCULAR_PRECOEMB.SQL.Text);
-
 end;
 
 procedure TfrmEstruturaBancoRotina.criaSequences;

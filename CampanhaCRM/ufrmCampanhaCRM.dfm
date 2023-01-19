@@ -5233,10 +5233,6 @@ object frmCampanhaCRM: TfrmCampanhaCRM
     object pageMenu: TcxTabSheet
       Caption = 'Menu'
       ImageIndex = 0
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         861
         608)
@@ -5270,7 +5266,7 @@ object frmCampanhaCRM: TfrmCampanhaCRM
       end
       object img1: TImage
         AlignWithMargins = True
-        Left = 285
+        Left = 288
         Top = 510
         Width = 291
         Height = 79
@@ -5861,7 +5857,6 @@ object frmCampanhaCRM: TfrmCampanhaCRM
         Properties.CustomButtons.Buttons = <>
         LookAndFeel.NativeStyle = False
         LookAndFeel.SkinName = 'Metropolis'
-        OnPageChanging = pcIncluirPageChanging
         ClientRectBottom = 606
         ClientRectLeft = 2
         ClientRectRight = 859
@@ -5979,7 +5974,7 @@ object frmCampanhaCRM: TfrmCampanhaCRM
             end
             object cxGroupBox13: TcxGroupBox
               Left = 22
-              Top = 104
+              Top = 84
               Caption = 'Filiais Dispon'#237'veis'
               Style.BorderColor = clDefault
               Style.LookAndFeel.SkinName = 'Metropolis'
@@ -6034,7 +6029,7 @@ object frmCampanhaCRM: TfrmCampanhaCRM
             end
             object btnIncluirFilial: TcxButton
               Left = 402
-              Top = 154
+              Top = 136
               Width = 32
               Height = 32
               Anchors = [akTop]
@@ -6175,7 +6170,7 @@ object frmCampanhaCRM: TfrmCampanhaCRM
             end
             object btnRemoverFilial: TcxButton
               Left = 402
-              Top = 218
+              Top = 200
               Width = 32
               Height = 32
               Anchors = [akTop]
@@ -6316,7 +6311,7 @@ object frmCampanhaCRM: TfrmCampanhaCRM
             end
             object cxGroupBox15: TcxGroupBox
               Left = 453
-              Top = 101
+              Top = 81
               Caption = 'Filiais Inclu'#237'das'
               Style.LookAndFeel.SkinName = 'Metropolis'
               StyleDisabled.LookAndFeel.SkinName = 'Metropolis'
@@ -6371,7 +6366,7 @@ object frmCampanhaCRM: TfrmCampanhaCRM
             end
             object cxLabel1: TcxLabel
               Left = 609
-              Top = 291
+              Top = 271
               Caption = 'Cod. Agrupador:'
               ParentColor = False
               ParentFont = False
@@ -6392,7 +6387,7 @@ object frmCampanhaCRM: TfrmCampanhaCRM
             end
             object edtCodTabloideCRM: TcxCurrencyEdit
               Left = 700
-              Top = 289
+              Top = 271
               Enabled = False
               Properties.DecimalPlaces = 0
               Properties.DisplayFormat = '0'
@@ -6519,118 +6514,12 @@ object frmCampanhaCRM: TfrmCampanhaCRM
               end
             end
             object cbCampanhaDirecionada: TcxCheckBox
-              Left = 22
-              Top = 83
+              Left = 25
+              Top = 271
               Caption = 'Campanha Direcionada'
-              ParentFont = False
               Properties.OnChange = cbCampanhaDirecionadaPropertiesChange
-              Style.Font.Charset = DEFAULT_CHARSET
-              Style.Font.Color = clWindowText
-              Style.Font.Height = -13
-              Style.Font.Name = 'Tahoma'
-              Style.Font.Style = []
-              Style.IsFontAssigned = True
               TabOrder = 13
               Transparent = True
-            end
-            object cxGroupBox1: TcxGroupBox
-              AlignWithMargins = True
-              Left = 6
-              Top = 312
-              Align = alBottom
-              Caption = 'Aviso importante!'
-              TabOrder = 14
-              Height = 202
-              Width = 839
-              object cxLabel11: TcxLabel
-                AlignWithMargins = True
-                Left = 6
-                Top = 18
-                Align = alTop
-                AutoSize = False
-                Caption = 
-                  'Aten'#231#227'o, para que as filiais sejam habilitadas para o clube, ser' +
-                  #225' necess'#225'rio que os seguintes par'#226'metros estejam configurados co' +
-                  'nforme instru'#231#245'es a seguir na 132:'
-                ParentColor = False
-                ParentFont = False
-                Style.Color = clRed
-                Style.Font.Charset = DEFAULT_CHARSET
-                Style.Font.Color = clRed
-                Style.Font.Height = -15
-                Style.Font.Name = 'Tahoma'
-                Style.Font.Style = [fsBold]
-                Style.TextColor = clRed
-                Style.TextStyle = [fsBold]
-                Style.IsFontAssigned = True
-                Properties.WordWrap = True
-                Transparent = True
-                ExplicitLeft = 5
-                ExplicitTop = 21
-                ExplicitWidth = 831
-                Height = 42
-                Width = 827
-              end
-              object cxGrid2: TcxGrid
-                AlignWithMargins = True
-                Left = 6
-                Top = 66
-                Width = 827
-                Height = 123
-                Align = alClient
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -12
-                Font.Name = 'Tahoma'
-                Font.Style = []
-                ParentFont = False
-                TabOrder = 1
-                LookAndFeel.SkinName = 'Office2013White'
-                object tblParametros: TcxGridDBTableView
-                  Navigator.Buttons.CustomButtons = <>
-                  OnCustomDrawCell = tblParametrosCustomDrawCell
-                  DataController.DataSource = dsParametros
-                  DataController.Summary.DefaultGroupSummaryItems = <>
-                  DataController.Summary.FooterSummaryItems = <>
-                  DataController.Summary.SummaryGroups = <>
-                  OptionsData.Deleting = False
-                  OptionsData.Editing = False
-                  OptionsData.Inserting = False
-                  OptionsView.NoDataToDisplayInfoText = 'Sem dados'
-                  OptionsView.GroupByBox = False
-                  object tblParametrosCODFILIAL: TcxGridDBColumn
-                    Caption = 'Filial'
-                    DataBinding.FieldName = 'CODFILIAL'
-                    Width = 46
-                  end
-                  object tblParametrosCODPARAMETRO: TcxGridDBColumn
-                    Caption = 'C'#243'd. Param'
-                    DataBinding.FieldName = 'CODPARAMETRO'
-                  end
-                  object tblParametrosDESCRICAO: TcxGridDBColumn
-                    Caption = 'Descric'#227'o'
-                    DataBinding.FieldName = 'DESCRICAO'
-                    Width = 371
-                  end
-                  object tblParametrosVALOR_ATUAL: TcxGridDBColumn
-                    Caption = 'Valor Atual'
-                    DataBinding.FieldName = 'VALOR_ATUAL'
-                    Width = 88
-                  end
-                  object tblParametrosVALOR_ESPERADO: TcxGridDBColumn
-                    Caption = 'Valor Esperado'
-                    DataBinding.FieldName = 'VALOR_ESPERADO'
-                    Width = 110
-                  end
-                  object tblParametrosNOME: TcxGridDBColumn
-                    DataBinding.FieldName = 'NOME'
-                    Visible = False
-                  end
-                end
-                object cxGrid2Level1: TcxGridLevel
-                  GridView = tblParametros
-                end
-              end
             end
           end
         end
@@ -6838,12 +6727,6 @@ object frmCampanhaCRM: TfrmCampanhaCRM
                   StyleFocused.LookAndFeel.SkinName = 'Metropolis'
                   StyleHot.LookAndFeel.SkinName = 'Metropolis'
                   TabOrder = 1
-                  Transparent = True
-                end
-                object cxLabel14: TcxLabel
-                  Left = 574
-                  Top = 6
-                  Caption = '(Ser'#227'o exibidos apenas produtos com pre'#231'o e custo)'
                   Transparent = True
                 end
               end
@@ -7185,7 +7068,6 @@ object frmCampanhaCRM: TfrmCampanhaCRM
                   Caption = 'Vl. Verba'
                   DataBinding.FieldName = 'VLVERBAUNITARIO'
                   PropertiesClassName = 'TcxCurrencyEditProperties'
-                  Visible = False
                   Styles.Content = DmLogin.cxStyle14
                   Styles.OnGetContentStyle = tblProdutosIncluidosVLVERBAUNITARIOStylesGetContentStyle
                   Width = 69
@@ -7286,7 +7168,6 @@ object frmCampanhaCRM: TfrmCampanhaCRM
                   DataBinding.FieldName = 'VLVERBAMARGEMMIN'
                   PropertiesClassName = 'TcxCurrencyEditProperties'
                   Properties.DisplayFormat = ' ,0.000000;- ,0.000000'
-                  Visible = False
                   Options.Editing = False
                   Styles.Content = DmLogin.cxStyle2
                   Position.BandIndex = 1
@@ -7298,7 +7179,6 @@ object frmCampanhaCRM: TfrmCampanhaCRM
                   DataBinding.FieldName = 'PERCMARGEMDESEJADA'
                   PropertiesClassName = 'TcxCurrencyEditProperties'
                   Properties.DisplayFormat = '%,0.00;-%,0.00'
-                  Visible = False
                   Styles.Content = DmLogin.cxStyle14
                   Width = 107
                   Position.BandIndex = 1
@@ -7741,10 +7621,6 @@ object frmCampanhaCRM: TfrmCampanhaCRM
         object pageClientesCampanha: TcxTabSheet
           Caption = 'Clientes Campanha'
           ImageIndex = 3
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           DesignSize = (
             857
             578)
@@ -8266,10 +8142,11 @@ object frmCampanhaCRM: TfrmCampanhaCRM
           end
           object pbCarregarClientes: TcxProgressBar
             Left = 0
-            Top = 512
+            Top = 514
             Align = alBottom
             Properties.SolidTextColor = True
             TabOrder = 10
+            ExplicitTop = 512
             Width = 857
           end
           object btnImportarCSV: TcxButton
@@ -8333,10 +8210,6 @@ object frmCampanhaCRM: TfrmCampanhaCRM
     object pageEditar: TcxTabSheet
       Caption = 'Editar'
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object v: TcxGroupBox
         Left = 0
         Top = 0
@@ -8860,7 +8733,7 @@ object frmCampanhaCRM: TfrmCampanhaCRM
             Properties.ValueChecked = 'S'
             Properties.ValueUnchecked = 'N'
             VisibleForEditForm = bTrue
-            Width = 24
+            Width = 23
           end
           object tblPesquisaOfertasAcoes: TcxGridDBColumn
             PropertiesClassName = 'TcxButtonEditProperties'
@@ -8947,31 +8820,31 @@ object frmCampanhaCRM: TfrmCampanhaCRM
                 Stretchable = False
               end>
             Properties.ViewStyle = vsButtonsOnly
-            Width = 49
+            Width = 46
           end
           object tblPesquisaOfertasCODCAMPANHACRM: TcxGridDBColumn
             Caption = 'Cod. Campanha'
             DataBinding.FieldName = 'CODCAMPANHACRM'
             Options.Editing = False
-            Width = 40
+            Width = 38
           end
           object tblPesquisaOfertasDESCRICAOCAMPANHACRM: TcxGridDBColumn
             Caption = 'Descri'#231#227'o'
             DataBinding.FieldName = 'DESCRICAOCAMPANHACRM'
             Options.Editing = False
-            Width = 200
+            Width = 188
           end
           object tblPesquisaOfertasCODFILIAL: TcxGridDBColumn
             Caption = 'Filial'
             DataBinding.FieldName = 'CODFILIAL'
             Options.Editing = False
-            Width = 32
+            Width = 30
           end
           object tblPesquisaOfertasSTATUS: TcxGridDBColumn
             Caption = 'Status'
             DataBinding.FieldName = 'STATUS'
             Options.Editing = False
-            Width = 82
+            Width = 78
           end
           object tblPesquisaOfertasPOSSUIVERBA: TcxGridDBColumn
             Caption = 'Verba?'
@@ -8981,8 +8854,6 @@ object frmCampanhaCRM: TfrmCampanhaCRM
             Properties.ReadOnly = True
             Properties.ValueChecked = 'S'
             Properties.ValueUnchecked = 'N'
-            Visible = False
-            Width = 47
           end
           object tblPesquisaOfertasQTITENS: TcxGridDBColumn
             Caption = 'Itens'
@@ -8994,7 +8865,7 @@ object frmCampanhaCRM: TfrmCampanhaCRM
             Caption = 'Dt. Inicial'
             DataBinding.FieldName = 'DTINICIAL'
             Options.Editing = False
-            Width = 83
+            Width = 84
           end
           object tblPesquisaOfertasDTFINAL: TcxGridDBColumn
             Caption = 'Dt. Final'
@@ -9014,7 +8885,7 @@ object frmCampanhaCRM: TfrmCampanhaCRM
             Caption = 'Dt. Verba/CMV'
             DataBinding.FieldName = 'DTREBAIXACUSTO'
             Options.Editing = False
-            Width = 36
+            Width = 37
           end
           object tblPesquisaOfertasCODTABLOIDECRM: TcxGridDBColumn
             Caption = 'Tabloide CRM'
@@ -9230,7 +9101,6 @@ object frmCampanhaCRM: TfrmCampanhaCRM
             0000000000000000000000000000000000010000000100000001000000010000
             0001000000000000000000000000000000000000000000000000}
           TabOrder = 3
-          Visible = False
           OnClick = btnRelizarRebaixaClick
         end
         object cxButton3: TcxButton
@@ -9362,12 +9232,12 @@ object frmCampanhaCRM: TfrmCampanhaCRM
   object qrFiliais: TUniQuery
     Connection = DmLogin.Conexao
     SQL.Strings = (
-      'SELECT DISTINCT PCFILIAL.CODIGO CODIGO, RAZAOSOCIAL'
-      '  FROM PCLIB, PCFILIAL'
-      ' WHERE     PCFILIAL.CODIGO = PCLIB.CODIGOA'
-      '       AND PCFILIAL.CODIGO <> ('#39'99'#39')'
-      '       AND PCLIB.CODFUNC = :CODFUNC'
-      'ORDER BY PCFILIAL.CODIGO')
+      'SELECT DISTINCT PCFILIAL.CODIGO CODIGO, RAZAOSOCIAL  '
+      '  FROM PCLIB, PCFILIAL                        '
+      ' WHERE PCFILIAL.CODIGO = PCLIB.CODIGOA        '
+      '       AND PCFILIAL.CODIGO <> ('#39'99'#39')        '
+      '       AND PCLIB.CODFUNC = :CODFUNC           '
+      ' ORDER BY PCFILIAL.CODIGO                     ')
     Left = 440
     Top = 65520
     ParamData = <
@@ -9426,11 +9296,6 @@ object frmCampanhaCRM: TfrmCampanhaCRM
       Caption = 'Desvincular Campanha de Filiais'
       OnExecute = actDesvincularCampanhaFiliaisExecute
     end
-    object actConfigInbox: TAction
-      Caption = 'Abrir config Inbox'
-      ShortCut = 16457
-      OnExecute = actConfigInboxExecute
-    end
   end
   object dlgListaCPF: TFileOpenDialog
     FavoriteLinks = <>
@@ -9456,46 +9321,5 @@ object frmCampanhaCRM: TfrmCampanhaCRM
     object DesvincularCampanhadeFiliais1: TMenuItem
       Action = actDesvincularCampanhaFiliais
     end
-  end
-  object dsParametros: TUniDataSource
-    DataSet = qrConsultaParametros
-    Left = 800
-    Top = 344
-  end
-  object qrConsultaParametros: TUniQuery
-    Connection = DmLogin.Conexao
-    SQL.Strings = (
-      'SELECT *'
-      '  FROM (SELECT PCPARAMFILIAL.CODFILIAL,'
-      '               PCMETAPARAMFILIAL.ID AS CODPARAMETRO,'
-      '               PCMETAPARAMFILIAL.TITULO AS DESCRICAO,'
-      '               PCPARAMFILIAL.VALOR AS VALOR_ATUAL,'
-      '               CASE'
-      '                   WHEN PCMETAPARAMFILIAL.ID = 2473 THEN '#39'S'#39
-      '                   WHEN PCMETAPARAMFILIAL.ID = 2965 THEN '#39'N'#39
-      '                   WHEN PCMETAPARAMFILIAL.ID = 2919 THEN '#39'S'#39
-      '                   WHEN PCMETAPARAMFILIAL.ID = 2432 THEN '#39'S'#39
-      '                   WHEN PCMETAPARAMFILIAL.ID = 3005 THEN '#39'N'#39
-      '               END'
-      '                   VALOR_ESPERADO,'
-      '               PCPARAMFILIAL.NOME'
-      '          FROM PCPARAMFILIAL, PCMETAPARAMFILIAL'
-      '         WHERE     PCMETAPARAMFILIAL.NOME = PCPARAMFILIAL.NOME'
-      
-        '               AND PCPARAMFILIAL.CODFILIAL IN (SELECT DISTINCT C' +
-        'ODFILIAL'
-      '                                                  FROM PCCAIXA'
-      
-        '                                                 WHERE DTFIM IS ' +
-        'NULL)'
-      '               AND PCMETAPARAMFILIAL.ID IN (2473,'
-      '                                            2965,'
-      '                                            2919,'
-      '                                            2432,'
-      '                                            3005)) DADOS'
-      ' WHERE DADOS.VALOR_ATUAL <> DADOS.VALOR_ESPERADO'
-      'ORDER BY DADOS.CODFILIAL ASC')
-    Left = 704
-    Top = 344
   end
 end

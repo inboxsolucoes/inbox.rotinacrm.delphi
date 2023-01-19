@@ -669,31 +669,19 @@ var
   qryMargemMin:TUniQuery;
 begin
   try
-     try
-        qryMargemMin := TUniQuery.Create(nil);
-        qryMargemMin.Connection := DmLogin.Conexao;
-        qryMargemMin.Close;
-        qryMargemMin.SQL.Clear;
-        qryMargemMin.SQL.Add('SELECT NVL(MARGEMMINATAC,0) AS MARGEMMINATAC FROM PCCLASSIFICMERC WHERE CODPROD = :CODPROD AND CODFILIAL IN (:CODFILIAL)');
-        qryMargemMin.ParamByName('CODPROD').AsFloat := codprod;
-        qryMargemMin.ParamByName('CODFILIAL').AsString := codfilial;
-        qryMargemMin.Open;
+    qryMargemMin := TUniQuery.Create(nil);
+    qryMargemMin.Connection := DmLogin.Conexao;
+    qryMargemMin.Close;
+    qryMargemMin.SQL.Clear;
+    qryMargemMin.SQL.Add('SELECT NVL(MARGEMMINATAC,0) AS MARGEMMINATAC FROM PCCLASSIFICMERC WHERE CODPROD = :CODPROD AND CODFILIAL IN (:CODFILIAL)');
+    qryMargemMin.ParamByName('CODPROD').AsFloat := codprod;
+    qryMargemMin.ParamByName('CODFILIAL').AsString := codfilial;
+    qryMargemMin.Open;
 
-        if not qryMargemMin.IsEmpty then
-          Result := qryMargemMin.FieldByName('MARGEMMINATAC').AsFloat
-        else
-          Result := 0;
-     finally
-        qryMargemMin.Free;
-     end;
-
-  except
-    on e : Exception do
-    begin
-      DmLogin.MensagemErroAbort('Erro ao validar margem minima: ' + E.Message);
-    end;
+    Result := qryMargemMin.FieldByName('MARGEMMINATAC').AsFloat;
+  finally
+    qryMargemMin.Free;
   end;
-
 end;
 
 function TDMCampanhaCRM.getDataInicialCampanha(codcampanha : Double): TDateTime;
@@ -760,7 +748,7 @@ procedure TDMCampanhaCRM.cdsProdutosIncluidosPVENDACRMChange(Sender: TField);
 begin
   if not (cdsProdutosIncluidos.State = dsInsert) then
   begin
-    if (cdsProdutosIncluidosPVENDACRM.AsFloat > cdsProdutosIncluidosPVENDAATAC.AsFloat) and (cdsProdutosIncluidosPVENDAATAC.AsFloat > 0) then
+    if (cdsProdutosIncluidosPVENDACRM.AsFloat > cdsProdutosIncluidosPVENDAATAC.AsFloat) then
       dmLogin.MensagemErroAbort('Produto com preco maior que o preço atacado! ' + #13 +
                                 'Codprod: ' + cdsProdutosIncluidosCODPROD.AsString + #13 +
                                 'Descricao: ' + cdsProdutosIncluidosDESCRICAO.AsString + #13 +

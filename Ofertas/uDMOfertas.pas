@@ -93,7 +93,6 @@ type
     cdsPesquisaOfertasInseridosPERCMARGEMDESEJADA: TFloatField;
     prcAtualizarEtiquetas: TUniStoredProc;
     qryValidaJaEmPrecoFixo: TUniQuery;
-    qrValidaOferta2017: TUniQuery;
     procedure cdsPesquisaOfertasInseridosPOFERTA_ATACChange(Sender: TField);
     procedure cdsPesquisaOfertasInseridosTIPOVERBAChange(Sender: TField);
     procedure cdsPesquisaOfertasInseridosBeforePost(DataSet: TDataSet);
@@ -1617,33 +1616,9 @@ begin
 
         if pAbortar then
           Abort;
-    end;
-
-    qrValidaOferta2017.Close;
-    qrValidaOferta2017.ParamByName('DTINI').AsDate:=  dtini;
-    qrValidaOferta2017.ParamByName('DTFIM').AsDate:=  dtfim;
-    qrValidaOferta2017.ParamByName('CODFILIAL').AsString:= codfilial;
-    qrValidaOferta2017.ParamByName('CODPROD').AsFloat:= codprod;
-    qrValidaOferta2017.Open;
-
-    if qrValidaOferta2017.RecordCount > 0 then
-    begin
-        qrValidaOferta2017.First;
-        DmLogin.MensagemInformacao('Produto ja se encontra em oferta vigente na rotina 2017! '                     + #13 +
-                                   'Codigo da filial: '            + qrValidaOferta2017.FieldByName('CODFILIAL').AsString  + #13 +
-                                   'Rotina da oferta: 2017' + #13 +
-                                   'Codigo interno do Produto: '   + qrValidaOferta2017.FieldByName('CODPROD').AsString    + #13 +
-                                   'Codigo de Barras do Produto: ' + qrValidaOferta2017.FieldByName('CODAUXILIAR').AsString           + #13 +
-                                   'Valor da Oferta: R$'           + qrValidaOferta2017.FieldByName('VALOR').AsString);
-
-        Result := qrValidaOferta2017.FieldByName('CODOFERTA').AsFloat;
-
-        if pAbortar then
-          Abort;
     end
     else
       Result := 0;
-
   end
   else
   begin

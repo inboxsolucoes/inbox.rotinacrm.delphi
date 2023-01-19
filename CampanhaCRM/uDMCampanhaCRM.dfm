@@ -830,7 +830,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
     PrinterSetup.DocumentName = 'Report'
     PrinterSetup.Duplex = dpNone
     PrinterSetup.Orientation = poLandscape
-    PrinterSetup.PaperName = 'A4'
+    PrinterSetup.PaperName = 'A4 210 x 297 mm'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.SaveDeviceSettings = False
     PrinterSetup.mmMarginBottom = 6350
@@ -878,7 +878,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
     RTFSettings.DefaultFont.Name = 'Arial'
     RTFSettings.DefaultFont.Style = []
     TextFileName = '($MyDocuments)\Report.pdf'
-    TextSearchSettings.DefaultString = '<Texto a localizar>'
+    TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
     TextSearchSettings.ShowAll = True
     XLSSettings.AppName = 'ReportBuilder'
@@ -1078,7 +1078,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
         ParentDataPipeline = False
         TextAlignment = taRightJustified
         Transparent = True
-        Visible = False
         DataPipelineName = 'ppDBRelVendaProd'
         mmHeight = 2910
         mmLeft = 235480
@@ -1264,7 +1263,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
         ParentDataPipeline = False
         TextAlignment = taRightJustified
         Transparent = True
-        Visible = False
         DataPipelineName = 'ppDBRelVendaProd'
         mmHeight = 2910
         mmLeft = 251090
@@ -1285,7 +1283,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Font.Style = []
         TextAlignment = taRightJustified
         Transparent = True
-        Visible = False
         DataPipelineName = 'ppDBRelVendaProd'
         mmHeight = 3175
         mmLeft = 268817
@@ -1604,7 +1601,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           TextAlignment = taRightJustified
           Transparent = True
-          Visible = False
           mmHeight = 3704
           mmLeft = 251090
           mmTop = 14552
@@ -1664,7 +1660,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           TextAlignment = taRightJustified
           Transparent = True
-          Visible = False
           mmHeight = 3704
           mmLeft = 235480
           mmTop = 14552
@@ -1815,7 +1810,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           TextAlignment = taRightJustified
           Transparent = True
-          Visible = False
           mmHeight = 3704
           mmLeft = 268817
           mmTop = 14288
@@ -2217,20 +2211,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
       'FROM PCEMBALAGEM, PCPRODUT, PCFORNEC'
       'WHERE PCEMBALAGEM.CODPROD = PCPRODUT.CODPROD '
       'AND PCPRODUT.CODFORNEC = PCFORNEC.CODFORNEC '
-      'AND COLUNA_PRECO ('
-      '           BUSCAPRECOS ('
-      '               PCEMBALAGEM.CODFILIAL,'
-      '               NVL ('
-      
-        '                   PKG_I9UTILITARIO.BUSCAPARAMETRO (PCEMBALAGEM.' +
-        'CODFILIAL,'
-      
-        '                                                    '#39'NUMREGIAOPA' +
-        'DRAOVAREJO'#39'),'
-      '                   '#39'1'#39'),'
-      '               PCEMBALAGEM.CODAUXILIAR,'
-      '               TRUNC (SYSDATE)),'
-      '           '#39'PVENDA1'#39') > 0'
       
         'AND PKG_I9UTILITARIO.BUSCACUSTO(PCEMBALAGEM.CODFILIAL, PCEMBALAG' +
         'EM.CODPROD) > 0'
@@ -2573,7 +2553,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
     PrinterSetup.DocumentName = 'Report'
     PrinterSetup.Duplex = dpNone
     PrinterSetup.Orientation = poLandscape
-    PrinterSetup.PaperName = 'A4'
+    PrinterSetup.PaperName = 'A4 210 x 297 mm'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.SaveDeviceSettings = False
     PrinterSetup.mmMarginBottom = 6350
@@ -2621,7 +2601,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
     RTFSettings.DefaultFont.Name = 'Arial'
     RTFSettings.DefaultFont.Style = []
     TextFileName = '($MyDocuments)\Report.pdf'
-    TextSearchSettings.DefaultString = '<Texto a localizar>'
+    TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
     TextSearchSettings.ShowAll = True
     XLSSettings.AppName = 'ReportBuilder'
@@ -2821,7 +2801,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
         ParentDataPipeline = False
         TextAlignment = taRightJustified
         Transparent = True
-        Visible = False
         DataPipelineName = 'ppDBRelAuracao'
         mmHeight = 2910
         mmLeft = 225690
@@ -2952,7 +2931,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
         ParentDataPipeline = False
         TextAlignment = taRightJustified
         Transparent = True
-        Visible = False
         DataPipelineName = 'ppDBRelAuracao'
         mmHeight = 2910
         mmLeft = 245798
@@ -2994,7 +2972,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Font.Size = 7
         Font.Style = []
         Transparent = True
-        Visible = False
         DataPipelineName = 'ppDBRelAuracao'
         mmHeight = 2646
         mmLeft = 263790
@@ -3095,7 +3072,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           TextAlignment = taRightJustified
           Transparent = True
-          Visible = False
           mmHeight = 3704
           mmLeft = 225690
           mmTop = 20638
@@ -3267,7 +3243,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           TextAlignment = taRightJustified
           Transparent = True
-          Visible = False
           mmHeight = 3704
           mmLeft = 245798
           mmTop = 20638
@@ -3511,7 +3486,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Size = 9
           Font.Style = [fsBold]
           Transparent = True
-          Visible = False
           mmHeight = 3704
           mmLeft = 263790
           mmTop = 20637
@@ -3684,7 +3658,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
     PrinterSetup.DocumentName = 'Report'
     PrinterSetup.Duplex = dpNone
     PrinterSetup.Orientation = poLandscape
-    PrinterSetup.PaperName = 'A4'
+    PrinterSetup.PaperName = 'A4 210 x 297 mm'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.SaveDeviceSettings = False
     PrinterSetup.mmMarginBottom = 6350
@@ -3730,7 +3704,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
     RTFSettings.DefaultFont.Name = 'Arial'
     RTFSettings.DefaultFont.Style = []
     TextFileName = '($MyDocuments)\Report.pdf'
-    TextSearchSettings.DefaultString = '<Texto a localizar>'
+    TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
     TextSearchSettings.ShowAll = True
     XLSSettings.AppName = 'ReportBuilder'
@@ -3802,45 +3776,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
         BandType = 0
         LayerName = BandLayer3
       end
-      object ppLabel41: TppLabel
-        DesignLayer = ppDesignLayer3
-        UserName = 'Label41'
-        Caption = 'Verba Unit'#225'ria'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Name = 'Arial'
-        Font.Size = 8
-        Font.Style = [fsBold]
-        TextAlignment = taRightJustified
-        Transparent = True
-        mmHeight = 3704
-        mmLeft = 20373
-        mmTop = 2910
-        mmWidth = 20373
-        BandType = 0
-        LayerName = BandLayer3
-      end
-      object ppDBText46: TppDBText
-        DesignLayer = ppDesignLayer3
-        UserName = 'DBText46'
-        DataField = 'VLVERBAUNITARIO'
-        DataPipeline = ppDBRelAuracao
-        DisplayFormat = '$#,0.00;-$#,0.00'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Name = 'Arial'
-        Font.Size = 7
-        Font.Style = []
-        ParentDataPipeline = False
-        Transparent = True
-        DataPipelineName = 'ppDBRelAuracao'
-        mmHeight = 2910
-        mmLeft = 16404
-        mmTop = 3704
-        mmWidth = 20373
-        BandType = 0
-        LayerName = BandLayer3
-      end
     end
     object ppDetailBand2: TppDetailBand
       Background1.Brush.Color = clSilver
@@ -3903,8 +3838,8 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Transparent = True
         DataPipelineName = 'ppDBRelAuracao'
         mmHeight = 2910
-        mmLeft = 105304
-        mmTop = 529
+        mmLeft = 128341
+        mmTop = 528
         mmWidth = 18785
         BandType = 4
         LayerName = BandLayer3
@@ -3922,12 +3857,32 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Font.Style = []
         ParentDataPipeline = False
         Transparent = True
-        Visible = False
         DataPipelineName = 'ppDBRelAuracao'
         mmHeight = 2910
-        mmLeft = 153459
+        mmLeft = 176509
         mmTop = 529
-        mmWidth = 18521
+        mmWidth = 18524
+        BandType = 4
+        LayerName = BandLayer3
+      end
+      object ppDBText46: TppDBText
+        DesignLayer = ppDesignLayer3
+        UserName = 'DBText46'
+        DataField = 'VLVERBAUNITARIO'
+        DataPipeline = ppDBRelAuracao
+        DisplayFormat = '$#,0.00;-$#,0.00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 7
+        Font.Style = []
+        ParentDataPipeline = False
+        Transparent = True
+        DataPipelineName = 'ppDBRelAuracao'
+        mmHeight = 2910
+        mmLeft = 106646
+        mmTop = 528
+        mmWidth = 20376
         BandType = 4
         LayerName = BandLayer3
       end
@@ -3945,9 +3900,9 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Transparent = True
         DataPipelineName = 'ppDBRelAuracao'
         mmHeight = 2910
-        mmLeft = 125942
+        mmLeft = 148979
         mmTop = 529
-        mmWidth = 25929
+        mmWidth = 25944
         BandType = 4
         LayerName = BandLayer3
       end
@@ -4318,9 +4273,9 @@ object DMCampanhaCRM: TDMCampanhaCRM
           VerticalAlignment = avCenter
           DataPipelineName = 'ppDBRelAuracao'
           mmHeight = 4233
-          mmLeft = 50536
+          mmLeft = 50542
           mmTop = 1588
-          mmWidth = 215900
+          mmWidth = 215892
           BandType = 3
           GroupNo = 1
           LayerName = BandLayer3
@@ -4430,8 +4385,8 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           Transparent = True
           mmHeight = 3704
-          mmLeft = 125942
-          mmTop = 8467
+          mmLeft = 148961
+          mmTop = 8468
           mmWidth = 25929
           BandType = 3
           GroupNo = 2
@@ -4450,8 +4405,8 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Transparent = True
           WordWrap = True
           mmHeight = 3440
-          mmLeft = 105304
-          mmTop = 8467
+          mmLeft = 128323
+          mmTop = 8468
           mmWidth = 18785
           BandType = 3
           GroupNo = 2
@@ -4485,11 +4440,29 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Size = 8
           Font.Style = [fsBold]
           Transparent = True
-          Visible = False
           mmHeight = 3704
-          mmLeft = 153459
-          mmTop = 8467
+          mmLeft = 176477
+          mmTop = 8468
           mmWidth = 18521
+          BandType = 3
+          GroupNo = 2
+          LayerName = BandLayer3
+        end
+        object ppLabel41: TppLabel
+          DesignLayer = ppDesignLayer3
+          UserName = 'Label41'
+          Caption = 'Verba Unit'#225'ria'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Name = 'Arial'
+          Font.Size = 8
+          Font.Style = [fsBold]
+          TextAlignment = taRightJustified
+          Transparent = True
+          mmHeight = 3704
+          mmLeft = 106627
+          mmTop = 8468
+          mmWidth = 20373
           BandType = 3
           GroupNo = 2
           LayerName = BandLayer3
@@ -4879,72 +4852,18 @@ object DMCampanhaCRM: TDMCampanhaCRM
   object qrFiliaisDisponiveis: TUniQuery
     Connection = DmLogin.Conexao
     SQL.Strings = (
-      'SELECT DISTINCT '#39'N'#39' INCLUIDO,'
-      '                PCFILIAL.CODIGO CODIGO,'
       
-        '                NVL (PCFILIAL.FANTASIA, PCFILIAL.RAZAOSOCIAL) AS' +
-        ' RAZAOSOCIAL,'
-      '                NULL AS CODCAMPANHACRM'
-      '  FROM PCLIB, PCFILIAL'
-      ' WHERE     PCFILIAL.CODIGO = PCLIB.CODIGOA'
-      '       AND PCFILIAL.CODIGO <> ('#39'99'#39')'
-      '       AND PCLIB.CODFUNC = :CODFUNC'
-      '       AND PCFILIAL.CODIGO IN (SELECT DISTINCT CODFILIAL'
-      '                                 FROM PCCAIXA'
-      '                                WHERE PCCAIXA.DTFIM IS NULL)'
-      '       AND PCFILIAL.CODIGO NOT IN (SELECT DISTINCT CODFILIAL'
-      '                                 FROM (SELECT DISTINCT'
+        'SELECT DISTINCT  '#39'N'#39' INCLUIDO, PCFILIAL.CODIGO CODIGO, NVL(PCFIL' +
+        'IAL.FANTASIA, PCFILIAL.RAZAOSOCIAL) AS RAZAOSOCIAL, NULL AS CODC' +
+        'AMPANHACRM'
+      '  FROM PCLIB, PCFILIAL                        '
+      ' WHERE PCFILIAL.CODIGO = PCLIB.CODIGOA        '
+      '       AND PCFILIAL.CODIGO <> ('#39'99'#39')        '
+      '       AND PCLIB.CODFUNC = :CODFUNC    '
       
-        '                                              PCPARAMFILIAL.CODF' +
-        'ILIAL,'
-      '                                              CASE'
-      
-        '                                                  WHEN PCMETAPAR' +
-        'AMFILIAL.ID = 2473 THEN '#39'S'#39
-      
-        '                                                  WHEN PCMETAPAR' +
-        'AMFILIAL.ID = 2965 THEN '#39'N'#39
-      
-        '                                                  WHEN PCMETAPAR' +
-        'AMFILIAL.ID = 2919 THEN '#39'S'#39
-      
-        '                                                  WHEN PCMETAPAR' +
-        'AMFILIAL.ID = 2432 THEN '#39'S'#39
-      
-        '                                                  WHEN PCMETAPAR' +
-        'AMFILIAL.ID = 3005 THEN '#39'N'#39
-      '                                              END'
-      
-        '                                                  VALOR_ESPERADO' +
-        ','
-      
-        '                                              NVL (PCPARAMFILIAL' +
-        '.VALOR, '#39'N'#39') AS VALOR_ATUAL'
-      
-        '                                         FROM PCPARAMFILIAL, PCM' +
-        'ETAPARAMFILIAL'
-      
-        '                                        WHERE     PCMETAPARAMFIL' +
-        'IAL.NOME = PCPARAMFILIAL.NOME'
-      
-        '                                              AND PCMETAPARAMFIL' +
-        'IAL.ID IN (2473,'
-      
-        '                                                                ' +
-        '           2965,'
-      
-        '                                                                ' +
-        '           2919,'
-      
-        '                                                                ' +
-        '           2432,'
-      
-        '                                                                ' +
-        '           3005)) DADOS'
-      
-        '                                WHERE DADOS.VALOR_ESPERADO <> DA' +
-        'DOS.VALOR_ATUAL)'
-      'ORDER BY PCFILIAL.CODIGO')
+        '       AND PCFILIAL.CODIGO IN (SELECT DISTINCT CODFILIAL FROM PC' +
+        'CAIXA WHERE PCCAIXA.DTFIM IS NULL)             '
+      ' ORDER BY PCFILIAL.CODIGO                     ')
     CachedUpdates = True
     Options.SetFieldsReadOnly = False
     Left = 632
@@ -5078,7 +4997,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
     PrinterSetup.DocumentName = 'Report'
     PrinterSetup.Duplex = dpNone
     PrinterSetup.Orientation = poLandscape
-    PrinterSetup.PaperName = 'A4'
+    PrinterSetup.PaperName = 'A4 210 x 297 mm'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.SaveDeviceSettings = False
     PrinterSetup.mmMarginBottom = 6350
@@ -5124,7 +5043,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
     RTFSettings.DefaultFont.Name = 'Arial'
     RTFSettings.DefaultFont.Style = []
     TextFileName = '($MyDocuments)\Report.pdf'
-    TextSearchSettings.DefaultString = '<Texto a localizar>'
+    TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
     TextSearchSettings.ShowAll = True
     XLSSettings.AppName = 'ReportBuilder'
@@ -5217,89 +5136,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
         BandType = 0
         LayerName = BandLayer4
       end
-      object ppLabel56: TppLabel
-        DesignLayer = ppDesignLayer4
-        UserName = 'Label56'
-        AutoSize = False
-        Caption = 'Vl Verba'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Name = 'Arial'
-        Font.Size = 10
-        Font.Style = [fsBold]
-        Transparent = True
-        Visible = False
-        mmHeight = 4763
-        mmLeft = 21696
-        mmTop = 6085
-        mmWidth = 15346
-        BandType = 0
-        LayerName = BandLayer4
-      end
-      object ppLabel67: TppLabel
-        DesignLayer = ppDesignLayer4
-        UserName = 'Label67'
-        AutoSize = False
-        Caption = 'Tipo Verba'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Name = 'Arial'
-        Font.Size = 10
-        Font.Style = [fsBold]
-        Transparent = True
-        Visible = False
-        mmHeight = 4233
-        mmLeft = 37835
-        mmTop = 6085
-        mmWidth = 20108
-        BandType = 0
-        LayerName = BandLayer4
-      end
-      object ppDBText60: TppDBText
-        DesignLayer = ppDesignLayer4
-        UserName = 'DBText60'
-        DataField = 'VLVERBAUNITARIO'
-        DataPipeline = ppDBRelCampanha
-        DisplayFormat = '$#,0.00;-$#,0.00'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Name = 'Arial'
-        Font.Size = 8
-        Font.Style = []
-        TextAlignment = taCentered
-        Transparent = True
-        Visible = False
-        DataPipelineName = 'ppDBRelCampanha'
-        mmHeight = 3704
-        mmLeft = 21696
-        mmTop = 17727
-        mmWidth = 15346
-        BandType = 0
-        LayerName = BandLayer4
-      end
-      object ppDBText67: TppDBText
-        DesignLayer = ppDesignLayer4
-        UserName = 'DBText67'
-        DataField = 'TIPOVERBA'
-        DataPipeline = ppDBRelCampanha
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Name = 'Arial'
-        Font.Size = 8
-        Font.Style = []
-        ParentDataPipeline = False
-        TextAlignment = taCentered
-        Transparent = True
-        Visible = False
-        VerticalAlignment = avCenter
-        DataPipelineName = 'ppDBRelCampanha'
-        mmHeight = 3704
-        mmLeft = 37835
-        mmTop = 17727
-        mmWidth = 20108
-        BandType = 0
-        LayerName = BandLayer4
-      end
     end
     object ppDetailBand3: TppDetailBand
       Background1.Brush.Color = clSilver
@@ -5367,6 +5203,27 @@ object DMCampanhaCRM: TDMCampanhaCRM
         BandType = 4
         LayerName = BandLayer4
       end
+      object ppDBText60: TppDBText
+        DesignLayer = ppDesignLayer4
+        UserName = 'DBText60'
+        DataField = 'VLVERBAUNITARIO'
+        DataPipeline = ppDBRelCampanha
+        DisplayFormat = '$#,0.00;-$#,0.00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Name = 'Arial'
+        Font.Size = 8
+        Font.Style = []
+        TextAlignment = taCentered
+        Transparent = True
+        DataPipelineName = 'ppDBRelCampanha'
+        mmHeight = 3704
+        mmLeft = 93396
+        mmTop = 265
+        mmWidth = 15332
+        BandType = 4
+        LayerName = BandLayer4
+      end
       object ppDBText61: TppDBText
         DesignLayer = ppDesignLayer4
         UserName = 'DBText61'
@@ -5382,8 +5239,8 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Transparent = True
         DataPipelineName = 'ppDBRelCampanha'
         mmHeight = 3704
-        mmLeft = 94721
-        mmTop = 0
+        mmLeft = 129895
+        mmTop = 265
         mmWidth = 18256
         BandType = 4
         LayerName = BandLayer4
@@ -5403,8 +5260,8 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Transparent = True
         DataPipelineName = 'ppDBRelCampanha'
         mmHeight = 3704
-        mmLeft = 114300
-        mmTop = 0
+        mmLeft = 149474
+        mmTop = 265
         mmWidth = 20638
         BandType = 4
         LayerName = BandLayer4
@@ -5424,9 +5281,31 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Transparent = True
         DataPipelineName = 'ppDBRelCampanha'
         mmHeight = 3704
-        mmLeft = 175419
+        mmLeft = 210550
         mmTop = 0
         mmWidth = 12171
+        BandType = 4
+        LayerName = BandLayer4
+      end
+      object ppDBText67: TppDBText
+        DesignLayer = ppDesignLayer4
+        UserName = 'DBText67'
+        DataField = 'TIPOVERBA'
+        DataPipeline = ppDBRelCampanha
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Name = 'Arial'
+        Font.Size = 8
+        Font.Style = []
+        ParentDataPipeline = False
+        TextAlignment = taCentered
+        Transparent = True
+        VerticalAlignment = avCenter
+        DataPipelineName = 'ppDBRelCampanha'
+        mmHeight = 3704
+        mmLeft = 109522
+        mmTop = 265
+        mmWidth = 20108
         BandType = 4
         LayerName = BandLayer4
       end
@@ -5444,8 +5323,8 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Transparent = True
         DataPipelineName = 'ppDBRelCampanha'
         mmHeight = 3704
-        mmLeft = 135732
-        mmTop = 0
+        mmLeft = 170906
+        mmTop = 265
         mmWidth = 18785
         BandType = 4
         LayerName = BandLayer4
@@ -5464,8 +5343,8 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Transparent = True
         DataPipelineName = 'ppDBRelCampanha'
         mmHeight = 3704
-        mmLeft = 155575
-        mmTop = 0
+        mmLeft = 190750
+        mmTop = 265
         mmWidth = 18785
         BandType = 4
         LayerName = BandLayer4
@@ -5482,10 +5361,10 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Font.Style = []
         Transparent = True
         DataPipelineName = 'ppDBRelCampanha'
-        mmHeight = 3704
-        mmLeft = 188648
+        mmHeight = 3703
+        mmLeft = 223836
         mmTop = 0
-        mmWidth = 17198
+        mmWidth = 17196
         BandType = 4
         LayerName = BandLayer4
       end
@@ -5501,10 +5380,10 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Font.Style = []
         Transparent = True
         DataPipelineName = 'ppDBRelCampanha'
-        mmHeight = 3704
-        mmLeft = 206640
+        mmHeight = 3703
+        mmLeft = 241828
         mmTop = 0
-        mmWidth = 41275
+        mmWidth = 41263
         BandType = 4
         LayerName = BandLayer4
       end
@@ -5820,6 +5699,25 @@ object DMCampanhaCRM: TDMCampanhaCRM
           GroupNo = 0
           LayerName = BandLayer4
         end
+        object ppLabel56: TppLabel
+          DesignLayer = ppDesignLayer4
+          UserName = 'Label56'
+          AutoSize = False
+          Caption = 'Vl Verba'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Name = 'Arial'
+          Font.Size = 10
+          Font.Style = [fsBold]
+          Transparent = True
+          mmHeight = 4763
+          mmLeft = 93396
+          mmTop = 12700
+          mmWidth = 15332
+          BandType = 3
+          GroupNo = 0
+          LayerName = BandLayer4
+        end
         object ppLabel57: TppLabel
           DesignLayer = ppDesignLayer4
           UserName = 'Label57'
@@ -5832,7 +5730,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           Transparent = True
           mmHeight = 4763
-          mmLeft = 94721
+          mmLeft = 129895
           mmTop = 12700
           mmWidth = 18256
           BandType = 3
@@ -5851,7 +5749,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           Transparent = True
           mmHeight = 4763
-          mmLeft = 114300
+          mmLeft = 149474
           mmTop = 12700
           mmWidth = 20638
           BandType = 3
@@ -5870,9 +5768,28 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           Transparent = True
           mmHeight = 4763
-          mmLeft = 175419
+          mmLeft = 210550
           mmTop = 12700
           mmWidth = 12171
+          BandType = 3
+          GroupNo = 0
+          LayerName = BandLayer4
+        end
+        object ppLabel67: TppLabel
+          DesignLayer = ppDesignLayer4
+          UserName = 'Label67'
+          AutoSize = False
+          Caption = 'Tipo Verba'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Name = 'Arial'
+          Font.Size = 10
+          Font.Style = [fsBold]
+          Transparent = True
+          mmHeight = 4233
+          mmLeft = 109522
+          mmTop = 12700
+          mmWidth = 20108
           BandType = 3
           GroupNo = 0
           LayerName = BandLayer4
@@ -5889,7 +5806,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           Transparent = True
           mmHeight = 4763
-          mmLeft = 135732
+          mmLeft = 170906
           mmTop = 12700
           mmWidth = 18785
           BandType = 3
@@ -5908,7 +5825,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           Transparent = True
           mmHeight = 4763
-          mmLeft = 155575
+          mmLeft = 190750
           mmTop = 12700
           mmWidth = 18785
           BandType = 3
@@ -6004,9 +5921,9 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           Transparent = True
           mmHeight = 4233
-          mmLeft = 188648
+          mmLeft = 223836
           mmTop = 12700
-          mmWidth = 17198
+          mmWidth = 17195
           BandType = 3
           GroupNo = 0
           LayerName = BandLayer4
@@ -6023,9 +5940,9 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           Transparent = True
           mmHeight = 4233
-          mmLeft = 206640
+          mmLeft = 241819
           mmTop = 12700
-          mmWidth = 41275
+          mmWidth = 41295
           BandType = 3
           GroupNo = 0
           LayerName = BandLayer4
@@ -6286,7 +6203,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
     PrinterSetup.Duplex = dpNone
-    PrinterSetup.PaperName = 'A4'
+    PrinterSetup.PaperName = 'A4 210 x 297 mm'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.SaveDeviceSettings = False
     PrinterSetup.mmMarginBottom = 6350
@@ -6332,7 +6249,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
     RTFSettings.DefaultFont.Name = 'Arial'
     RTFSettings.DefaultFont.Style = []
     TextFileName = '($MyDocuments)\Report.pdf'
-    TextSearchSettings.DefaultString = '<Texto a localizar>'
+    TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
     TextSearchSettings.ShowAll = True
     XLSSettings.AppName = 'ReportBuilder'
@@ -6451,6 +6368,28 @@ object DMCampanhaCRM: TDMCampanhaCRM
         BandType = 4
         LayerName = BandLayer5
       end
+      object ppDBText79: TppDBText
+        DesignLayer = ppDesignLayer5
+        UserName = 'DBText60'
+        DataField = 'VLVERBAUNITARIO'
+        DataPipeline = ppDBRelCampanhaComprador
+        DisplayFormat = '$#,0.00;-$#,0.00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Name = 'Arial'
+        Font.Size = 8
+        Font.Style = []
+        ParentDataPipeline = False
+        TextAlignment = taCentered
+        Transparent = True
+        DataPipelineName = 'ppDBRelCampanhaComprador'
+        mmHeight = 3704
+        mmLeft = 111390
+        mmTop = 0
+        mmWidth = 24342
+        BandType = 4
+        LayerName = BandLayer5
+      end
       object ppDBText80: TppDBText
         DesignLayer = ppDesignLayer5
         UserName = 'DBText61'
@@ -6467,8 +6406,8 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Transparent = True
         DataPipelineName = 'ppDBRelCampanhaComprador'
         mmHeight = 3704
-        mmLeft = 112448
-        mmTop = 265
+        mmLeft = 156369
+        mmTop = 0
         mmWidth = 18256
         BandType = 4
         LayerName = BandLayer5
@@ -6489,9 +6428,31 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Transparent = True
         DataPipelineName = 'ppDBRelCampanhaComprador'
         mmHeight = 3704
-        mmLeft = 132027
-        mmTop = 265
+        mmLeft = 175948
+        mmTop = 0
         mmWidth = 20638
+        BandType = 4
+        LayerName = BandLayer5
+      end
+      object ppDBText83: TppDBText
+        DesignLayer = ppDesignLayer5
+        UserName = 'DBText67'
+        DataField = 'TIPOVERBA'
+        DataPipeline = ppDBRelCampanhaComprador
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Name = 'Arial'
+        Font.Size = 8
+        Font.Style = []
+        ParentDataPipeline = False
+        TextAlignment = taCentered
+        Transparent = True
+        VerticalAlignment = avCenter
+        DataPipelineName = 'ppDBRelCampanhaComprador'
+        mmHeight = 3704
+        mmLeft = 135996
+        mmTop = 0
+        mmWidth = 20108
         BandType = 4
         LayerName = BandLayer5
       end
@@ -6599,6 +6560,25 @@ object DMCampanhaCRM: TDMCampanhaCRM
           GroupNo = 0
           LayerName = BandLayer5
         end
+        object ppLabel82: TppLabel
+          DesignLayer = ppDesignLayer5
+          UserName = 'Label56'
+          AutoSize = False
+          Caption = 'Vl Verba unit.'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Name = 'Arial'
+          Font.Size = 10
+          Font.Style = [fsBold]
+          Transparent = True
+          mmHeight = 4763
+          mmLeft = 111390
+          mmTop = 8731
+          mmWidth = 24342
+          BandType = 3
+          GroupNo = 0
+          LayerName = BandLayer5
+        end
         object ppLabel84: TppLabel
           DesignLayer = ppDesignLayer5
           UserName = 'Label57'
@@ -6611,8 +6591,8 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           Transparent = True
           mmHeight = 4763
-          mmLeft = 112448
-          mmTop = 8996
+          mmLeft = 156369
+          mmTop = 8731
           mmWidth = 18256
           BandType = 3
           GroupNo = 0
@@ -6630,9 +6610,28 @@ object DMCampanhaCRM: TDMCampanhaCRM
           Font.Style = [fsBold]
           Transparent = True
           mmHeight = 4763
-          mmLeft = 132027
-          mmTop = 8996
+          mmLeft = 175948
+          mmTop = 8731
           mmWidth = 20638
+          BandType = 3
+          GroupNo = 0
+          LayerName = BandLayer5
+        end
+        object ppLabel87: TppLabel
+          DesignLayer = ppDesignLayer5
+          UserName = 'Label67'
+          AutoSize = False
+          Caption = 'Tipo Verba'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Name = 'Arial'
+          Font.Size = 10
+          Font.Style = [fsBold]
+          Transparent = True
+          mmHeight = 4233
+          mmLeft = 135996
+          mmTop = 8731
+          mmWidth = 20108
           BandType = 3
           GroupNo = 0
           LayerName = BandLayer5
@@ -7018,94 +7017,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
           GroupNo = 0
           LayerName = BandLayer5
         end
-        object ppLabel82: TppLabel
-          DesignLayer = ppDesignLayer5
-          UserName = 'Label56'
-          AutoSize = False
-          Caption = 'Vl Verba unit.'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Name = 'Arial'
-          Font.Size = 10
-          Font.Style = [fsBold]
-          Transparent = True
-          Visible = False
-          mmHeight = 4763
-          mmLeft = 147638
-          mmTop = 9790
-          mmWidth = 24342
-          BandType = 5
-          GroupNo = 0
-          LayerName = BandLayer5
-        end
-        object ppLabel87: TppLabel
-          DesignLayer = ppDesignLayer5
-          UserName = 'Label67'
-          AutoSize = False
-          Caption = 'Tipo Verba'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Name = 'Arial'
-          Font.Size = 10
-          Font.Style = [fsBold]
-          Transparent = True
-          Visible = False
-          mmHeight = 4233
-          mmLeft = 172244
-          mmTop = 9790
-          mmWidth = 20108
-          BandType = 5
-          GroupNo = 0
-          LayerName = BandLayer5
-        end
-        object ppDBText83: TppDBText
-          DesignLayer = ppDesignLayer5
-          UserName = 'DBText67'
-          DataField = 'TIPOVERBA'
-          DataPipeline = ppDBRelCampanhaComprador
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Name = 'Arial'
-          Font.Size = 8
-          Font.Style = []
-          ParentDataPipeline = False
-          TextAlignment = taCentered
-          Transparent = True
-          Visible = False
-          VerticalAlignment = avCenter
-          DataPipelineName = 'ppDBRelCampanhaComprador'
-          mmHeight = 3704
-          mmLeft = 172244
-          mmTop = 18785
-          mmWidth = 20108
-          BandType = 5
-          GroupNo = 0
-          LayerName = BandLayer5
-        end
-        object ppDBText79: TppDBText
-          DesignLayer = ppDesignLayer5
-          UserName = 'DBText60'
-          DataField = 'VLVERBAUNITARIO'
-          DataPipeline = ppDBRelCampanhaComprador
-          DisplayFormat = '$#,0.00;-$#,0.00'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Name = 'Arial'
-          Font.Size = 8
-          Font.Style = []
-          ParentDataPipeline = False
-          TextAlignment = taCentered
-          Transparent = True
-          Visible = False
-          DataPipelineName = 'ppDBRelCampanhaComprador'
-          mmHeight = 3704
-          mmLeft = 147638
-          mmTop = 18785
-          mmWidth = 24342
-          BandType = 5
-          GroupNo = 0
-          LayerName = BandLayer5
-        end
       end
     end
     object raCodeModule5: TraCodeModule
@@ -7238,7 +7149,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
     PrinterSetup.DocumentName = 'Report'
     PrinterSetup.Duplex = dpNone
     PrinterSetup.Orientation = poLandscape
-    PrinterSetup.PaperName = 'A4'
+    PrinterSetup.PaperName = 'A4 210 x 297 mm'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.SaveDeviceSettings = False
     PrinterSetup.mmMarginBottom = 6350
@@ -7284,7 +7195,7 @@ object DMCampanhaCRM: TDMCampanhaCRM
     RTFSettings.DefaultFont.Name = 'Arial'
     RTFSettings.DefaultFont.Style = []
     TextFileName = '($MyDocuments)\Report.pdf'
-    TextSearchSettings.DefaultString = '<Texto a localizar>'
+    TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
     TextSearchSettings.ShowAll = True
     XLSSettings.AppName = 'ReportBuilder'
@@ -7403,7 +7314,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Font.Size = 9
         Font.Style = [fsBold]
         Transparent = True
-        Visible = False
         mmHeight = 3704
         mmLeft = 151077
         mmTop = 19579
@@ -7476,7 +7386,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Font.Size = 9
         Font.Style = [fsBold]
         Transparent = True
-        Visible = False
         mmHeight = 4233
         mmLeft = 165894
         mmTop = 19579
@@ -7797,7 +7706,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
         Font.Style = []
         TextAlignment = taCentered
         Transparent = True
-        Visible = False
         DataPipelineName = 'ppDBRelCampanha'
         mmHeight = 3704
         mmLeft = 151077
@@ -7882,7 +7790,6 @@ object DMCampanhaCRM: TDMCampanhaCRM
         ParentDataPipeline = False
         TextAlignment = taCentered
         Transparent = True
-        Visible = False
         VerticalAlignment = avCenter
         DataPipelineName = 'ppDBRelCampanha'
         mmHeight = 3704

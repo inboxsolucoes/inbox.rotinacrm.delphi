@@ -119,7 +119,6 @@ object frmDetalheCampanhaCRM: TfrmDetalheCampanhaCRM
         Caption = 'VlUnit. Verba'
         DataBinding.FieldName = 'VLVERBAUNITARIO'
         PropertiesClassName = 'TcxCurrencyEditProperties'
-        Visible = False
         Width = 83
       end
       object tblItensCRMPERCDESCONTO: TcxGridDBColumn
