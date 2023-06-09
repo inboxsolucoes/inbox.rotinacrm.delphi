@@ -5233,6 +5233,10 @@ object frmCampanhaCRM: TfrmCampanhaCRM
     object pageMenu: TcxTabSheet
       Caption = 'Menu'
       ImageIndex = 0
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         861
         608)
@@ -7621,6 +7625,10 @@ object frmCampanhaCRM: TfrmCampanhaCRM
         object pageClientesCampanha: TcxTabSheet
           Caption = 'Clientes Campanha'
           ImageIndex = 3
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           DesignSize = (
             857
             578)
@@ -8142,11 +8150,10 @@ object frmCampanhaCRM: TfrmCampanhaCRM
           end
           object pbCarregarClientes: TcxProgressBar
             Left = 0
-            Top = 514
+            Top = 512
             Align = alBottom
             Properties.SolidTextColor = True
             TabOrder = 10
-            ExplicitTop = 512
             Width = 857
           end
           object btnImportarCSV: TcxButton
@@ -8210,6 +8217,10 @@ object frmCampanhaCRM: TfrmCampanhaCRM
     object pageEditar: TcxTabSheet
       Caption = 'Editar'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object v: TcxGroupBox
         Left = 0
         Top = 0
