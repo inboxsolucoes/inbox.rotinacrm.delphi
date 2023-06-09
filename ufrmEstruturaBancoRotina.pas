@@ -185,6 +185,8 @@ begin
   frmBancoDados.criarCampo('PCCLIENT', 'BIOMETRIA2', 'CLOB');
   frmBancoDados.criarCampo('I9CAMPANHACRM', 'CAMPANHADIRECIONADA', 'VARCHAR2(1) DEFAULT ''N'' ');
   frmBancoDados.criarCampo('PCDESCONTOFIDELIDADE', 'CODCLIDIRECIONADO', 'NUMBER(10)');
+  //
+  frmBancoDados.criarCampo('PCCLIENT', 'CLIENTE_PRINCIPAL_CRM', 'VARCHAR2(1) DEFAULT ''N''');
 end;
 
 procedure TfrmEstruturaBancoRotina.inserirParametros;

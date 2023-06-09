@@ -1933,6 +1933,26 @@ begin
         vTipoCampanha := 'ATACADO';
         vCodcli := DmLogin.buscaParametroPCConsum('CODCLICRMATACADO');
         AdicionarCampanhaCRM(vTipoCampanha, vCodcli);
+
+        //ADICIONAR CAMPANHA CLIENTES PRINCIPAIS
+        DmLogin.qrAux.Close;
+        DmLogin.qrAux.SQL.Clear;
+        DmLogin.qrAux.SQL.Add('SELECT CODCLI FROM PCCLIENT WHERE NVL(CLIENTE_PRINCIPAL_CRM, ''N'') = ''S''');
+        DmLogin.qrAux.Open;
+
+        if not DmLogin.qrAux.IsEmpty then
+        begin
+          DmLogin.qrAux.First;
+
+          while not DmLogin.qrAux.Eof do
+          begin
+            vTipoCampanha := 'VAREJO';
+            vCodcli :=  DmLogin.qrAux.FieldByName('CODCLI').AsString;
+            AdicionarCampanhaCRM(vTipoCampanha, vCodcli);
+            DmLogin.qrAux.Next;
+          end;
+        end;
+
       end;
 
       GravarI9CabecalhoCampanha;
