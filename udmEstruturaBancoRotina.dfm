@@ -474,6 +474,11 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
         '    FUNCTION DIFERENCA_ENTRE_MARGENS (PVALOR1 IN NUMBER, PVALOR2' +
         ' IN NUMBER)'
       '        RETURN NUMBER;'
+      #9#9
+      
+        '    FUNCTION DIFERENCA_ENTRE_MARGENS_NOVA (PVALOR1 IN NUMBER, PV' +
+        'ALOR2 IN NUMBER)'
+      '        RETURN NUMBER;'
       ''
       
         '    FUNCTION GETPERCENTUAL (PVALOR1 IN NUMBER, PVALOR2 IN NUMBER' +
@@ -1288,6 +1293,28 @@ object dmEstruturaBancoRotina: TdmEstruturaBancoRotina
       ''
       ''
       '        RETURN ROUND( VRESULTADO, 2 );'
+      '    END;'
+      #9
+      
+        #9'FUNCTION DIFERENCA_ENTRE_MARGENS_NOVA( PVALOR1 IN NUMBER, PVALO' +
+        'R2 IN NUMBER )'
+      '        RETURN NUMBER'
+      '    IS'
+      '        VDIFERENCA NUMBER( 18, 6 );'
+      '        VRESULTADO NUMBER( 18, 6 );'
+      '    BEGIN'
+      '        VRESULTADO := 0;'
+      ''
+      '        IF NVL( PVALOR1, 0 ) > 0'
+      '       AND NVL( PVALOR2, 0 ) > 0 THEN'
+      '            VDIFERENCA := ( PVALOR1 - PVALOR2 );'
+      
+        '            VRESULTADO := ROUND( ( VDIFERENCA / PVALOR1 ) * 100,' +
+        ' 6 );'
+      '        END IF;'
+      ''
+      ''
+      '        RETURN ROUND( VRESULTADO, 6 );'
       '    END;'
       ''
       ''

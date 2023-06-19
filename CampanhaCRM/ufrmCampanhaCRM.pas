@@ -485,7 +485,7 @@ begin
 
     if (UpperCase(pTipoCampanha) = 'VAREJO') or (UpperCase(pTipoCampanha) = 'DIRECIONADA') then
     begin
-      DMCampanhaCRM.qrGravarCampanha.ParamByName('PERCDESCONTO').AsFloat := DMCampanhaCRM.getMargemEntreNumeros(DMCampanhaCRM.cdsProdutosIncluidosPVENDA.AsFloat, DMCampanhaCRM.cdsProdutosIncluidosPVENDACRM.AsFloat);
+      DMCampanhaCRM.qrGravarCampanha.ParamByName('PERCDESCONTO').AsFloat := DMCampanhaCRM.getPercentualDesconto(DMCampanhaCRM.cdsProdutosIncluidosPVENDA.AsFloat, DMCampanhaCRM.cdsProdutosIncluidosPVENDACRM.AsFloat);
     end;
 
     if UpperCase(pTipoCampanha) = 'ATACADO' then
@@ -496,7 +496,7 @@ begin
       end
       else
       begin
-        DMCampanhaCRM.qrGravarCampanha.ParamByName('PERCDESCONTO').AsFloat := DMCampanhaCRM.getMargemEntreNumeros(DMCampanhaCRM.cdsProdutosIncluidosPVENDAATAC.AsFloat, DMCampanhaCRM.cdsProdutosIncluidosPVENDACRM.AsFloat);
+        DMCampanhaCRM.qrGravarCampanha.ParamByName('PERCDESCONTO').AsFloat := DMCampanhaCRM.getPercentualDesconto(DMCampanhaCRM.cdsProdutosIncluidosPVENDAATAC.AsFloat, DMCampanhaCRM.cdsProdutosIncluidosPVENDACRM.AsFloat);
       end;
     end;
 

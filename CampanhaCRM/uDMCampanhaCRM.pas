@@ -506,6 +506,7 @@ type
     procedure geraInformacoesVerbaCampanha;
     function getDataInicialCampanha(codcampanha : Double): TDateTime;
     procedure CarregarClientesCampanha(pCodCampanhaCRM : Integer);
+    function getPercentualDesconto(valor1, valor2: Double): double;
   end;
 
 var
@@ -1120,7 +1121,30 @@ begin
 
 end;
 
+function TDMCampanhaCRM.getPercentualDesconto(valor1, valor2: Double): double;
+var
+  qrMargem: TUniQuery;
+begin
 
+  try
+    qrMargem := TUniQuery.Create(nil);
+    qrMargem.Connection := DmLogin.Conexao;
+    qrMargem.Close;
+    qrMargem.SQL.Clear;
+    qrMargem.SQL.Add('SELECT  ');
+    qrMargem.SQL.Add('PKG_I9UTILITARIO.DIFERENCA_ENTRE_MARGENS_NOVA(:VALOR1, :VALOR2) MARGEM');
+    qrMargem.SQL.Add('FROM DUAL');
+    qrMargem.ParamByName('VALOR1').AsFloat := valor1;
+    qrMargem.ParamByName('VALOR2').AsFloat := valor2;
+    qrMargem.Open;
+
+    Result := qrMargem.FieldByName('MARGEM').AsFloat;
+  finally
+    qrMargem.Close;
+    qrMargem.Free;
+  end;
+
+end;
 
 procedure TDMCampanhaCRM.calculaMargemFuturaCRM;
 var
