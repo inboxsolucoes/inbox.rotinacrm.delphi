@@ -1797,7 +1797,7 @@ end;
 procedure TfrmCampanhaCRM.FormShow(Sender: TObject);
 begin
 
-  if (DmLogin.Hoje >= strtodatetime('20/03/2024 00:00:00')) then
+  if (DmLogin.Hoje >= strtodatetime('20/09/2025 00:00:00')) then
   begin
     DmLogin.MensagemInformacao('Rotina de avaliação expirada, entre em contato com a equipe Inbox Soluções.');
     Application.Terminate;
